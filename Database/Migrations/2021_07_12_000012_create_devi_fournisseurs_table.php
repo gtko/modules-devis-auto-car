@@ -16,6 +16,8 @@ class CreateDeviFournisseursTable extends Migration
         Schema::create('devi_fournisseurs', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('devi_id');
+            $table->float('prix')->nullable();
+            $table->boolean('validate')->default(false);
             $table->timestamp('mail_sended')->nullable();
         });
     }

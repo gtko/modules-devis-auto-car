@@ -8,8 +8,8 @@ use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Views\DevisEditViewContract;
-use Modules\CoreCRM\Models\Devi;
 use Modules\DevisAutoCar\Entities\DevisEditView;
+use Modules\DevisAutoCar\Models\Devi;
 
 class DevisAutoCarServiceProvider extends ServiceProvider
 {
