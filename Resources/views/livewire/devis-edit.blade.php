@@ -28,7 +28,7 @@
             </div>
         </x-basecore::partials.card>
         @if(($data['aller_distance'] ?? null))
-            <livewire:devis-distance :distance="$data['aller_distance']" />
+            <livewire:devisautocar::devis-distance :distance="$data['aller_distance']" />
         @endif
 
         <div class="my-5">
@@ -58,7 +58,7 @@
             </div>
         </x-basecore::partials.card>
         @if(($data['retour_distance'] ?? null))
-            <livewire:devis-distance :distance="$data['retour_distance']"/>
+            <livewire:devisautocar::devis-distance :distance="$data['retour_distance']"/>
         @endif
 
         <script>

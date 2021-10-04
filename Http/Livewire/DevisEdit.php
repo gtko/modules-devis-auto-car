@@ -2,11 +2,11 @@
 
 namespace Modules\DevisAutoCar\Http\Livewire;
 
-use App\Contracts\Service\DistanceApiContract;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Livewire\Component;
 use Modules\CoreCRM\Models\Fournisseur;
+use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Models\Brand;
 
 class DevisEdit extends Component

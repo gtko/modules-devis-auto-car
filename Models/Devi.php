@@ -56,4 +56,9 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     {
         return $this->belongsToMany(Brand::class);
     }
+
+    public function getTotal(): float
+    {
+
+    }
 }
