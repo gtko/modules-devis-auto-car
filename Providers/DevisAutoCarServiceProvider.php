@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Contracts\Views\Devis\DevisListContrat;
 use Modules\CoreCRM\Contracts\Views\DevisEditViewContract;
 use Modules\DevisAutoCar\Entities\DevisEditView;
 use Modules\DevisAutoCar\Models\Devi;
@@ -32,10 +33,13 @@ class DevisAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DevisEntities::class, Devi::class);
         $this->app->bind(DevisEditViewContract::class, DevisEditView::class);
 
+
         /** Overide des views CoreCRM */
         app(CompositeurThemeContract::class)
             ->setViews(DevisEditViewContract::class,[
                 'devis-view' => new TypeView(TypeView::TYPE_LIVEWIRE,'devisautocar::devis-edit')
+            ])->setViews(DevisListContrat::class, [
+                'devis-list' => new TypeView(TypeView::TYPE_LIVEWIRE, 'devisautocar::devis-list')
             ]);
 
     }

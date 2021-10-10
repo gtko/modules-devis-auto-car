@@ -59,6 +59,6 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getTotal(): float
     {
-
+        return 0;
     }
 }
