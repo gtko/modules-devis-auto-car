@@ -3,17 +3,19 @@
 namespace Modules\DevisAutoCar\Models;
 
 
-use App\Models\Brand;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Models\User;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Models\Scopes\HasRef;
+use Modules\CrmAutoCar\Models\Brand;
+use Modules\CrmAutoCar\Models\Invoice;
 
 /**
  * Class Devi
@@ -23,7 +25,7 @@ use Modules\CoreCRM\Models\Scopes\HasRef;
  * @property Dossier $dossier
  * @property Commercial $commercial
  * @property Fournisseur $fournisseur
- * @property Brand $brand
+ * @property \Modules\CrmAutoCar\Models\Brand $brand
  * @mixin Builder
  * @mixin \Illuminate\Database\Query\Builder
  */
@@ -55,6 +57,11 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function brands(): BelongsToMany
     {
         return $this->belongsToMany(Brand::class);
+    }
+
+    public function invoice():HasOne
+    {
+        return $this->hasOne(Invoice::class, 'devis_id', 'id');
     }
 
     public function getTotal(): float

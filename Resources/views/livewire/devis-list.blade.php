@@ -54,6 +54,9 @@
                             <a class='ignore-link' href="{{route('pdf-devis-download', $devi)}}">
                                 @icon('pdf', null, 'w-4 h-4 mr-1')
                             </a>
+
+                            <livewire:crmautocar::button-create-invoice :devis="$devi"/>
+
                         </div>
                     </td>
                 </tr>
