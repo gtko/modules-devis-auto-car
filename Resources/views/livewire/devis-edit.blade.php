@@ -204,9 +204,15 @@
 
     <div class="flex justify-between items-center mt-5">
         <div></div>
+        @if(!$invoice_exists)
         <x-basecore::button type="submit" wire:click="store">
             <i class="mr-1 icon ion-md-save"></i>
             @lang('basecore::crud.common.update')
         </x-basecore::button>
+        @else
+            <div class="alert alert-danger-soft show flex items-center mb-2" role="alert">
+                @icon('noIcon', null, 'mr-2') Ce devis a été converti en facture.
+            </div>
+        @endif
     </div>
 </div>

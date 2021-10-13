@@ -63,7 +63,7 @@ class DevisPrice
         return $this->total_ttc;
     }
 
-    public function getTVA(){
+    public function getTauxTVA(){
         if($this->tva) {
             return config('crmautocar.tva');
         }
@@ -72,7 +72,7 @@ class DevisPrice
     }
 
     public function getPriceHT(){
-        return $this->getPriceTTC() / (1 + ($this->getTVA() / 100));
+        return $this->getPriceTTC() / (1 + ($this->getTauxTVA() / 100));
     }
 
     public function getPriceTVA(){

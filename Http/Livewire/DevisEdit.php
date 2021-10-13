@@ -26,12 +26,20 @@ class DevisEdit extends Component
 
 
     public function store(DevisRepositoryContract $deviRep){
-        $deviRep->updateData($this->devis, $this->data);
+        if(!$this->devis->invoice()->exists()) {
 
-        session()->flash('success',__('basecore::crud.common.saved'));
+            $deviRep->updateData($this->devis, $this->data);
 
-        return redirect()
-            ->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier]);
+            session()->flash('success', __('basecore::crud.common.saved'));
+
+            return redirect()
+                ->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier]);
+        }else{
+            session()->flash('danger', "Une facture a été émise et je devis n'est plus modifiable.");
+
+            return redirect()
+                ->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier]);
+        }
     }
 
     public function updatedDataAllerPointDepartGeo($value){
@@ -81,7 +89,8 @@ class DevisEdit extends Component
     {
         $fournisseurs = Fournisseur::all();
         $brands = Brand::all();
+        $invoice_exists = $this->devis->invoice()->exists();
 
-        return view('devisautocar::livewire.devis-edit', compact( 'fournisseurs', 'brands'));
+        return view('devisautocar::livewire.devis-edit', compact( 'fournisseurs', 'brands', 'invoice_exists'));
     }
 }
