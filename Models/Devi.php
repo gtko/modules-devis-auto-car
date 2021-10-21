@@ -16,6 +16,7 @@ use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Models\Scopes\HasRef;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Proformat;
 
 /**
  * Class Devi
@@ -64,8 +65,21 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return $this->hasOne(Invoice::class, 'devis_id', 'id');
     }
 
+    public function proformat():HasOne
+    {
+        return $this->hasOne(Proformat::class, 'devis_id', 'id');
+    }
+
     public function getTotal(): float
     {
         return 0;
+    }
+
+    public function getState():String
+    {
+        if($this->invoice()->exists()) return 'invoice';
+        if($this->proformat()->exists()) return 'proformat';
+
+        return 'devis';
     }
 }

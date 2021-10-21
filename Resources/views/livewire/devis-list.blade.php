@@ -39,25 +39,7 @@
                         <td class="border-b dark:border-dark-5"></td>
                     @endforeach
                     <td class="border-b dark:border-dark-5">
-                        <div class="flex">
-                            @can('update', $devi)
-                                <a class="flex items-center mr-3"
-                                   href="{{route('devis.edit', [$client, $dossier, $devi])}}">
-                                    @icon("edit", null,"w-4 h-4 mr-1")
-                                </a>
-                            @endcan
-
-                            <x-corecrm::link-devis :devis="$devi" class="flex items-center mr-3">
-                                @icon("show", null,"w-4 h-4 mr-1")
-                            </x-corecrm::link-devis>
-
-                            <a class='ignore-link' href="{{route('pdf-devis-download', $devi)}}">
-                                @icon('pdf', null, 'w-4 h-4 mr-1')
-                            </a>
-
-                            <livewire:crmautocar::button-create-invoice :devis="$devi"/>
-
-                        </div>
+                        <livewire:devisautocar::devis-actions :devis="$devi"/>
                     </td>
                 </tr>
             @endforeach
