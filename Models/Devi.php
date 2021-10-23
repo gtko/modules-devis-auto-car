@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Models\User;
 use Modules\CoreCRM\Models\Commercial;
@@ -17,6 +18,8 @@ use Modules\CoreCRM\Models\Scopes\HasRef;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\DevisAutoCar\Entities\DevisPrice;
 
 /**
  * Class Devi
@@ -55,6 +58,13 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return $this->belongsToMany(app(UserEntity::class)::class, 'devi_fournisseurs')->withPivot('prix', 'validate', 'mail_sended');
     }
 
+    public function fournisseursValidated(): BelongsToMany
+    {
+        return $this->belongsToMany(app(UserEntity::class)::class, 'devi_fournisseurs')
+            ->withPivot('prix', 'validate', 'mail_sended')
+            ->wherePivot('validate', true);
+    }
+
     public function brands(): BelongsToMany
     {
         return $this->belongsToMany(Brand::class);
@@ -72,7 +82,16 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getTotal(): float
     {
-        return 0;
+        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        return (new DevisPrice($this, $brand))->getPriceTTC();
+    }
+
+    public function getDateDepartAttribute():Carbon{
+        return Carbon::parse($this->data['aller_date_depart']);
+    }
+
+    public function getDateRetourAttribute():Carbon{
+        return Carbon::parse($this->data['retour_date_depart']);
     }
 
     public function getState():String
