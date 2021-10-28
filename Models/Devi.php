@@ -86,12 +86,22 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return (new DevisPrice($this, $brand))->getPriceTTC();
     }
 
-    public function getDateDepartAttribute():Carbon{
-        return Carbon::parse($this->data['aller_date_depart']);
+    public function getDateDepartAttribute(){
+        $date = $this->data['aller_date_depart'] ?? '';
+        if(!empty($date)) {
+            return Carbon::parse($date);
+        }
+
+        return '';
     }
 
-    public function getDateRetourAttribute():Carbon{
-        return Carbon::parse($this->data['retour_date_depart']);
+    public function getDateRetourAttribute(){
+        $date = $this->data['retour_date_depart'] ?? '';
+        if(!empty($date)) {
+            return Carbon::parse($date);
+        }
+
+        return '';
     }
 
     public function getState():String
