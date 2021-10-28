@@ -10,7 +10,7 @@
         @icon("show", null,"w-4 h-4 mr-1")
     </x-corecrm::link-devis>
 
-    <a class='ignore-link' href="{{route('pdf-devis-download', $devis)}}">
+    <a class='ignore-link' href="{{route('pdf-devis-download', $devis)}}" target="_blank">
         @icon('pdf', null, 'w-4 h-4 mr-1')
     </a>
 
