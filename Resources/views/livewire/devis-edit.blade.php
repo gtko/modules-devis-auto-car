@@ -90,7 +90,7 @@
             }
         </script>
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAksepNYHf1gKZvOPd5Zu3hmMoXYUG2LRw&callback=initAutocomplete&libraries=places&v=weekly"
+            src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}=places&v=weekly"
             async
         ></script>
 
