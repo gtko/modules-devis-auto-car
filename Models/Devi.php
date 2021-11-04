@@ -70,12 +70,12 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return $this->belongsToMany(Brand::class);
     }
 
-    public function invoice():HasOne
+    public function invoice(): HasOne
     {
         return $this->hasOne(Invoice::class, 'devis_id', 'id');
     }
 
-    public function proformat():HasOne
+    public function proformat(): HasOne
     {
         return $this->hasOne(Proformat::class, 'devis_id', 'id');
     }
@@ -86,28 +86,61 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return (new DevisPrice($this, $brand))->getPriceTTC();
     }
 
-    public function getDateDepartAttribute(){
-        $date = $this->data['aller_date_depart'] ?? '';
-        if(!empty($date)) {
-            return Carbon::parse($date);
-        }
-
-        return '';
-    }
-
-    public function getDateRetourAttribute(){
-        $date = $this->data['retour_date_depart'] ?? '';
-        if(!empty($date)) {
-            return Carbon::parse($date);
-        }
-
-        return '';
-    }
-
-    public function getState():String
+    public function getDateDepartAttribute()
     {
-        if($this->invoice()->exists()) return 'invoice';
-        if($this->proformat()->exists()) return 'proformat';
+        $date = $this->data['aller_date_depart'] ?? '';
+        if (!empty($date)) {
+            return Carbon::parse($date);
+        }
+
+        return '';
+    }
+
+    public function getDateRetourAttribute()
+    {
+        $date = $this->data['retour_date_depart'] ?? '';
+        if (!empty($date)) {
+            return Carbon::parse($date);
+        }
+
+        return '';
+    }
+
+    public function getAddressValidationAttribute()
+    {
+        return $this->data['address_validation'] ?? '';
+    }
+
+    public function getNameValidationAttribute()
+    {
+        return $this->data['name_validation'] ?? '';
+    }
+
+    public function getSocieteValidationAttribute()
+    {
+        return $this->data['societe_validation'] ?? '';
+    }
+
+    public function getPaiementTypeValidationAttribute()
+    {
+        return $this->data['paiement_type_validation'] ?? '';
+    }
+
+    public function getValidateAttribute()
+    {
+        if(array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation' , $this->data) || array_key_exists('name_validation' , $this->data) || array_key_exists('address_validation' , $this->data))
+            {
+                return true;
+            } else {
+            return false;
+        }
+    }
+
+
+    public function getState(): string
+    {
+        if ($this->invoice()->exists()) return 'invoice';
+        if ($this->proformat()->exists()) return 'proformat';
 
         return 'devis';
     }
