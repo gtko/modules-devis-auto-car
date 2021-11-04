@@ -1,10 +1,16 @@
-<div class="flex">
+<div class="flex items-center justify-between">
+
+
+
     @can('update', $devis)
-        <a class="flex items-center mr-3"
+        <a class="flex items-center"
            href="{{route('devis.edit', [$client, $dossier, $devis])}}">
             @icon("edit", null,"w-4 h-4 mr-1")
         </a>
     @endcan
+
+
+    <livewire:devisautocar::send-devis :devis="$devis"/>
 
     <x-corecrm::link-devis :devis="$devis" class="flex items-center mr-3">
         @icon("show", null,"w-4 h-4 mr-1")
@@ -16,8 +22,6 @@
 
     @if($state === 'devis')
         <livewire:crmautocar::create-proformat :devis="$devis"/>
-    @else()
-        <livewire:crmautocar::button-create-invoice :devis="$devis"/>
     @endif
 
 </div>

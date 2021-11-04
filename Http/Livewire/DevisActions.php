@@ -18,7 +18,8 @@ class DevisActions extends Component
         $this->client = $this->dossier->client;
     }
 
-    /**
+
+        /**
      * Get the view / contents that represent the component.
      *
      * @return \Illuminate\View\View|string
