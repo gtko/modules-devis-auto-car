@@ -6,7 +6,7 @@
 
     <div>
         @forelse($data['trajets'] as $keyTrajet => $trajet)
-            <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$keyTrajet" :data="$data"/>
+            <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
         @empty
             <div class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
                 <span class="text-gray-500 font-bold text-2xl mb-3">Ajouter un trajet à ce devis</span>
@@ -35,16 +35,28 @@
                 <x-basecore::inputs.group>
                     <x-basecore::inputs.number label="Nombre de chauffeurs" name=""  wire:model.lazy="data.nombre_chauffeur"/>
                 </x-basecore::inputs.group>
+
+            </div>
+        </x-basecore::partials.card>
+
+        <div class="my-5">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                TVA
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+                Ne pas établir un devis ou facture avec la TVA FR.
+            </p>
+        </div>
+            <x-basecore::partials.card>
                 <x-basecore::inputs.group class="w-full">
                     <x-basecore::inputs.checkbox
-                        wire:model.defer="tva_applicable"
+                        wire:model.defer="devis.tva_applicable"
                         name="tva_applicable"
                         label="Tva Applicable"
                         :checked="$devis->tva_applicable"
                     />
                 </x-basecore::inputs.group>
-            </div>
-        </x-basecore::partials.card>
+            </x-basecore::partials.card>
         <div class="flex justify-between items-center mt-5">
             @if(!$invoice_exists)
                 <x-basecore::loading-replace label="Enregistrement en cours">
@@ -68,18 +80,10 @@
     </div>
 
     <script>
-        // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initInput(selecteur) {
             let addressFields;
             addressFields = document.querySelectorAll(selecteur);
             for(let addressField of addressFields) {
-
-                console.log(
-                    addressField,
-                    addressField.getAttribute('name'),
-                    addressField.getAttribute('data-trajet')
-                )
-
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
                     componentRestrictions: {},
@@ -92,23 +96,20 @@
                     let geoField = document.querySelector('[name='+addressField.getAttribute('name')  + "_geo_" + addressField.getAttribute('data-trajet')+']')
                     geoField.value = latlng
                     addressField.value = place.formatted_address
-                    @this.set("data.trajets." + addressField.getAttribute('data-trajet') + '.' + addressField.getAttribute('name') , place.formatted_address)
-                    @this.set("data.trajets." + addressField.getAttribute('data-trajet') + '.' + addressField.getAttribute('name')  + "_geo", latlng)
+                    @this.emit('devis:update-'+addressField.getAttribute('data-trajet')+'-data', {
+                        'name' : addressField.getAttribute('name'),
+                        'format' : place.formatted_address,
+                        'geo' : latlng
+                    })
                 });
             }
         }
-
         function initAutocomplete() {
             initInput('.addressmap')
-            // initInput('#aller_point_depart')
-            // initInput('#aller_point_arriver')
-            // initInput('#retour_point_depart')
-            // initInput('#retour_point_arriver')
         }
     </script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}=places&v=weekly"
-        async
     ></script>
 
 </div>
