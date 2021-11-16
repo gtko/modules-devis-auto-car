@@ -37,8 +37,8 @@ class DevisEdit extends Component
     }
 
     public function store(DevisRepositoryContract $deviRep){
-        if(!$this->devis->invoice()->exists()) {
-
+        if(!$this->devis->invoice()->exists())
+        {
             $deviRep->updateData($this->devis, $this->data);
 
             session()->flash('success', __('basecore::crud.common.saved'));

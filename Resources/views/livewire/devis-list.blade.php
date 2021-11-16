@@ -35,7 +35,8 @@
                         {{$devi->created_at->format('d/m/Y H:i')}}
                     </td>
                     @foreach($brands as $brand)
-                        <td class="border-b dark:border-dark-5">{{$devi->data['brands'][$brand->id] ?? 0}}€</td>
+                        <td class="border-b dark:border-dark-5">
+                            {{(new Modules\DevisAutoCar\Entities\DevisPrice($devi, $brand))->getPriceTTC()}}€</td>
                         <td class="border-b dark:border-dark-5"></td>
                     @endforeach
                     <td class="border-b dark:border-dark-5">
