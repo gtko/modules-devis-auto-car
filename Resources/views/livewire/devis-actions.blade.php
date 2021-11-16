@@ -4,6 +4,7 @@
 
     @can('update', $devis)
         <a class="flex items-center"
+           title="Editer le devis"
            href="{{route('devis.edit', [$client, $dossier, $devis])}}">
             @icon("edit", null,"w-4 h-4 mr-1")
         </a>
@@ -12,7 +13,7 @@
 
     <livewire:devisautocar::send-devis :devis="$devis"/>
 
-    <x-corecrm::link-devis :devis="$devis" class="flex items-center mr-3">
+    <x-corecrm::link-devis :devis="$devis" class="flex items-center" title="voir le devis">
         @icon("show", null,"w-4 h-4 mr-1")
     </x-corecrm::link-devis>
 
