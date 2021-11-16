@@ -2,6 +2,7 @@
 
 namespace Modules\DevisAutoCar\Http\Livewire;
 
+use Illuminate\Support\Str;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Livewire\Component;
@@ -16,14 +17,19 @@ class DevisEdit extends Component
     public array $data;
 
     protected array $rules = [
-        'data.*' => ''
+        'data.*' => '',
+        'data.trajets' => '',
     ];
 
     public function mount(DevisEntities $devis){
         $this->devis = $devis;
-        $this->data = $this->devis->data ?? [];
-    }
+        $this->data = $this->devis->data ?? ['trajets' => []];
 
+        //patch ancienne version
+        if(!($this->data['trajets'] ?? false)){
+            $this->data = ['trajets' => []];
+        }
+    }
 
     public function store(DevisRepositoryContract $deviRep){
         if(!$this->devis->invoice()->exists()) {
@@ -42,43 +48,108 @@ class DevisEdit extends Component
         }
     }
 
-    public function updatedDataAllerPointDepartGeo($value){
-        $this->updateDistanceAller();
+
+    public function addTrajet()
+    {
+        $this->data['trajets'][] = [
+            'inclus_repas_chauffeur' => false,
+            'inclus_hebergement' => false,
+            'inclus_parking' => false,
+            'inclus_peages' => true,
+            'non_inclus_repas_chauffeur' => true,
+            'non_inclus_hebergement' => true,
+            'non_inclus_parking' => true,
+            'non_inclus_peages' => false,
+        ];
     }
 
-    public function updatedDataAllerPointArriverGeo($value){
-        $this->updateDistanceAller();
+    public function removeTrajet($trajet)
+    {
+        unset($this->data['trajets'][$trajet]);
     }
 
-    public function updateDistanceAller(){
-       if(($this->data['aller_point_depart_geo'] ?? null) && ($this->data['aller_point_arriver_geo'] ?? null))
-       {
-           $this->data['aller_distance'] = app(DistanceApiContract::class)
-               ->distance(
-                   $this->data['aller_point_depart_geo'] ,
-                   $this->data['aller_point_arriver_geo']
-               )->toArray();
-       }
-    }
+    public function updatedData($value, $key){
 
-    public function updatedDataRetourPointDepartGeo($value){
-        $this->updateDistanceRetour();
-    }
+        /*"bordeaux"
+        "trajets.0.aller_point_depart"*/
 
-    public function updatedDataRetourPointArriverGeo($value){
-        $this->updateDistanceRetour();
-    }
 
-    public function updateDistanceRetour(){
-        if(($this->data['retour_point_depart_geo'] ?? null) && ($this->data['retour_point_arriver_geo'] ?? null))
-        {
-            $this->data['retour_distance'] = app(DistanceApiContract::class)
-                ->distance(
-                    $this->data['retour_point_depart_geo'] ,
-                    $this->data['retour_point_arriver_geo']
-                )->toArray();
+        if(Str::contains($key, '_geo')){
+            $keys = explode('.', $key);
+            $this->{'updatedData'.Str::ucfirst(Str::camel(last($keys)))}($value, $keys[1]);
         }
+
     }
+
+    public function updatedDataAllerPointDepartGeo($value, $trajet){
+        $this->updateDistanceAller($trajet);
+    }
+
+    public function updatedDataAllerPointArriverGeo($value, $trajet){
+        $this->updateDistanceAller($trajet);
+    }
+
+    public function updateDistanceAller($trajet){
+        if(($this->data['trajets'][$trajet]['aller_point_depart_geo'] ?? null) && ($this->data['trajets'][$trajet]['aller_point_arriver_geo'] ?? null))
+        {
+            $this->data['trajets'][$trajet]['aller_distance'] = app(DistanceApiContract::class)
+                ->distance(
+                    $this->data['trajets'][$trajet]['aller_point_depart_geo'] ,
+                    $this->data['trajets'][$trajet]['aller_point_arriver_geo']
+                )->toArray();
+
+
+
+            if(!($this->data['trajets'][$trajet]['retour_point_depart_geo'] ?? null) && !($this->data['trajets'][$trajet]['retour_point_arriver_geo'] ?? null)){
+                $this->data['trajets'][$trajet]['retour_point_depart_geo'] = $this->data['trajets'][$trajet]['aller_point_arriver_geo'];
+                $this->data['trajets'][$trajet]['retour_point_arriver_geo'] = $this->data['trajets'][$trajet]['aller_point_depart_geo'];
+
+                $this->data['trajets'][$trajet]['retour_point_depart'] = $this->data['trajets'][$trajet]['aller_point_arriver'];
+                $this->data['trajets'][$trajet]['retour_point_arriver'] = $this->data['trajets'][$trajet]['aller_point_depart'];
+
+                $this->updateDistanceRetour($trajet);
+            }
+        }
+        if(($this->data['trajets'][$trajet]['aller_point_depart_geo'] ?? null) && !($this->data['trajets'][$trajet]['addresse_ramassage'] ?? null)){
+            $this->data['trajets'][$trajet]['addresse_ramassage'] = $this->data['trajets'][$trajet]['aller_point_depart'];
+        }
+
+    }
+
+    public function updatedDataRetourPointDepartGeo($value,$trajet){
+        $this->updateDistanceRetour($trajet);
+    }
+
+    public function updatedDataRetourPointArriverGeo($value,$trajet){
+        $this->updateDistanceRetour($trajet);
+    }
+
+    public function updateDistanceRetour($trajet){
+        if(($this->data['trajets'][$trajet]['retour_point_depart_geo'] ?? null) && ($this->data['trajets'][$trajet]['retour_point_arriver_geo'] ?? null))
+        {
+            $this->data['trajets'][$trajet]['retour_distance'] = app(DistanceApiContract::class)
+                ->distance(
+                    $this->data['trajets'][$trajet]['retour_point_depart_geo'] ,
+                    $this->data['trajets'][$trajet]['retour_point_arriver_geo']
+                )->toArray();
+
+            if(!($this->data['trajets'][$trajet]['aller_point_depart_geo'] ?? null) && !($this->data['trajets'][$trajet]['aller_point_arriver_geo'] ?? null)){
+                $this->data['trajets'][$trajet]['aller_point_depart_geo'] = $this->data['trajets'][$trajet]['retour_point_arriver_geo'];
+                $this->data['trajets'][$trajet]['aller_point_arriver_geo'] = $this->data['trajets'][$trajet]['retour_point_depart_geo'];
+
+                $this->data['trajets'][$trajet]['aller_point_depart'] = $this->data['trajets'][$trajet]['retour_point_arriver'];
+                $this->data['trajets'][$trajet]['aller_point_arriver'] = $this->data['trajets'][$trajet]['retour_point_depart'];
+
+                $this->updateDistanceAller($trajet);
+            }
+        }
+
+        if(($this->data['trajets'][$trajet]['retour_point_depart_geo'] ?? null) && !($this->data['trajets'][$trajet]['addresse_destination'] ?? null)){
+            $this->data['trajets'][$trajet]['addresse_destination'] = $this->data['trajets'][$trajet]['retour_point_depart'];
+        }
+
+    }
+
 
     /**
      * Get the views / contents that represent the component.
@@ -87,10 +158,9 @@ class DevisEdit extends Component
      */
     public function render()
     {
-        $fournisseurs = Fournisseur::all();
-        $brands = Brand::all();
+
         $invoice_exists = $this->devis->invoice()->exists();
 
-        return view('devisautocar::livewire.devis-edit', compact( 'fournisseurs', 'brands', 'invoice_exists'));
+        return view('devisautocar::livewire.devis-edit', compact( 'invoice_exists'));
     }
 }
