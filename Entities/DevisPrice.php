@@ -30,7 +30,7 @@ class DevisPrice
     }
 
     protected function getTrajetsTotal(Devi $devis , Brand $brand){
-        foreach($devis->data['trajets'] as $id => $trajet){
+        foreach(($devis->data['trajets'] ?? [])as $id => $trajet){
             $this->trajets->push(new DevisTrajetPrice($devis, $id, $brand));
         }
     }
