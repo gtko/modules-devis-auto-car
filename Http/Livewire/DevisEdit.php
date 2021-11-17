@@ -28,12 +28,13 @@ class DevisEdit extends Component
 
     public function mount(DevisEntities $devis){
         $this->devis = $devis;
-        $this->data = $this->devis->data ?? ['trajets' => []];
+        $this->data = $this->devis->data ?? false;
 
-        //patch ancienne version
-        if(!($this->data['trajets'] ?? false)){
+        if(!$this->data || !($this->data['trajets'] ?? false)){
             $this->data = ['trajets' => []];
+            $this->addTrajet();
         }
+
     }
 
     public function store(DevisRepositoryContract $deviRep){
@@ -69,6 +70,8 @@ class DevisEdit extends Component
             'non_inclus_parking' => true,
             'non_inclus_peages' => false,
         ];
+
+        $this->emit('devis:trajet-open', ['id' => count($this->data['trajets']) - 1]);
     }
 
     public function removeTrajet($trajet)

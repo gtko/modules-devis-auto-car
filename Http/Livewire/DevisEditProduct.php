@@ -12,14 +12,34 @@ class DevisEditProduct extends Component
 {
     public $trajet;
     public $trajetId;
+    public $open = false;
+
+
+    public function mount($trajetId, $trajet)
+    {
+        $this->trajetId = $trajetId;
+        $this->trajet = $trajet;
+
+        if($trajetId == 0){
+            $this->open = true;
+        }
+
+    }
+
 
 
     protected function getListeners()
     {
         return [
-            'devis:update-'.$this->trajetId.'-data' => "updateData"
+            'devis:update-'.$this->trajetId.'-data' => "updateData",
+            'devis:trajet-open' => "openForm"
         ];
     }
+
+    public function openForm($data){
+       $this->open = $this->trajetId === $data['id'];
+    }
+
 
     public function updated(){
 
@@ -39,11 +59,7 @@ class DevisEditProduct extends Component
         $this->emitUp('devis:update',['trajet' => $this->trajet, 'id' => $this->trajetId]);
     }
 
-    public function mount($trajetId, $trajet)
-    {
-        $this->trajetId = $trajetId;
-        $this->trajet = $trajet;
-    }
+
 
     public function updateData($data){
         if(Str::contains($data['name'], 'aller')){

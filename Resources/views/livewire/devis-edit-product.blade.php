@@ -1,4 +1,4 @@
-<div x-data="{open:false}" class="mt-3 border "
+<div x-data="{open:@entangle('open')}" class="mt-3 border "
      x-bind:class="{'border-transparent' : !open}"
 >
     <div class="group flex w-full bg-white p-3 justify-between items-center cursor-pointer"
