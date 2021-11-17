@@ -49,7 +49,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     ];
 
     public function getIsMultipleAttribute(){
-        return count($this->data['trajets']) > 1;
+        return count($this->data['trajets'] ?? []) > 1;
     }
 
     public function fournisseur(): BelongsTo

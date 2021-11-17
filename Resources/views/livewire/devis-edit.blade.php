@@ -5,7 +5,7 @@
     @endif
 
     <div>
-        @forelse(($data['trajets'] ?? [])as $keyTrajet => $trajet)
+        @forelse(($data['trajets'] ?? []) as $keyTrajet => $trajet)
             <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
         @empty
             <div class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
