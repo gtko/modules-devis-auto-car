@@ -1,16 +1,21 @@
 <div>
 
     @if(count($data['trajets'] ?? []) > 0)
-        <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un trajet</button>
+        <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un
+            trajet
+        </button>
     @endif
 
     <div>
         @forelse(($data['trajets'] ?? []) as $keyTrajet => $trajet)
             <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
         @empty
-            <div class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
+            <div
+                class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
                 <span class="text-gray-500 font-bold text-2xl mb-3">Ajouter un trajet à ce devis</span>
-                <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un trajet</button>
+                <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter
+                    un trajet
+                </button>
             </div>
         @endforelse
         <div class="my-5">
@@ -24,16 +29,19 @@
         <x-basecore::partials.card>
             <div class="grid grid-cols-2">
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.basic label="N° de tel chauffeur Aller"  name="" wire:model.lazy="data.aller_tel_chauffeur"/>
+                    <x-basecore::inputs.basic label="N° de tel chauffeur Aller" name=""
+                                              wire:model.lazy="data.aller_tel_chauffeur"/>
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.basic label="N° de tel chauffeur Retour" name=""  wire:model.lazy="data.retour_tel_chauffeur"/>
+                    <x-basecore::inputs.basic label="N° de tel chauffeur Retour" name=""
+                                              wire:model.lazy="data.retour_tel_chauffeur"/>
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.number label="Nombres de cars" name=""  wire:model.lazy="data.nombre_bus"/>
+                    <x-basecore::inputs.number label="Nombres de cars" name="" wire:model.lazy="data.nombre_bus"/>
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.number label="Nombre de chauffeurs" name=""  wire:model.lazy="data.nombre_chauffeur"/>
+                    <x-basecore::inputs.number label="Nombre de chauffeurs" name=""
+                                               wire:model.lazy="data.nombre_chauffeur"/>
                 </x-basecore::inputs.group>
 
             </div>
@@ -47,16 +55,30 @@
                 Ne pas établir un devis ou facture avec la TVA FR.
             </p>
         </div>
-            <x-basecore::partials.card>
-                <x-basecore::inputs.group class="w-full">
-                    <x-basecore::inputs.checkbox
-                        wire:model.defer="devis.tva_applicable"
-                        name="tva_applicable"
-                        label="Tva Applicable"
-                        :checked="$devis->tva_applicable"
-                    />
-                </x-basecore::inputs.group>
-            </x-basecore::partials.card>
+        <x-basecore::partials.card>
+            <x-basecore::inputs.group class="w-full">
+                <x-basecore::inputs.checkbox
+                    wire:model.defer="devis.tva_applicable"
+                    name="tva_applicable"
+                    label="Tva Applicable"
+                    :checked="$devis->tva_applicable"
+                />
+            </x-basecore::inputs.group>
+        </x-basecore::partials.card>
+        <div class="my-5">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Commentaire
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+                Commentaire accroché au devis
+            </p>
+        </div>
+        <x-basecore::inputs.textarea
+            wire:model="data.commentaire"
+            name="commentaire"
+            class="h-36"
+        />
+
         <div class="flex justify-between items-center mt-5">
             @if(!$invoice_exists)
                 <x-basecore::loading-replace label="Enregistrement en cours">
@@ -83,7 +105,7 @@
         function initInput(selecteur) {
             let addressFields;
             addressFields = document.querySelectorAll(selecteur);
-            for(let addressField of addressFields) {
+            for (let addressField of addressFields) {
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
                     componentRestrictions: {},
@@ -93,17 +115,18 @@
 
                     const place = autocomplete.getPlace()
                     let latlng = place.geometry.location.lat() + "," + place.geometry.location.lng()
-                    let geoField = document.querySelector('[name='+addressField.getAttribute('name')  + "_geo_" + addressField.getAttribute('data-trajet')+']')
+                    let geoField = document.querySelector('[name=' + addressField.getAttribute('name') + "_geo_" + addressField.getAttribute('data-trajet') + ']')
                     geoField.value = latlng
                     addressField.value = place.formatted_address
-                    @this.emit('devis:update-'+addressField.getAttribute('data-trajet')+'-data', {
-                        'name' : addressField.getAttribute('name'),
-                        'format' : place.formatted_address,
-                        'geo' : latlng
-                    })
+                @this.emit('devis:update-' + addressField.getAttribute('data-trajet') + '-data', {
+                    'name': addressField.getAttribute('name'),
+                    'format': place.formatted_address,
+                    'geo': latlng
+                })
                 });
             }
         }
+
         function initAutocomplete() {
             initInput('.addressmap')
         }

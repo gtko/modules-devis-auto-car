@@ -19,7 +19,7 @@ class DevisEdit extends Component
     protected array $rules = [
         'data.*' => '',
         'data.trajets' => '',
-        'devis.tva_applicable' => ''
+        'devis.tva_applicable' => '',
     ];
 
     protected $listeners = [
