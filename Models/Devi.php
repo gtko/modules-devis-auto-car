@@ -59,13 +59,14 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function fournisseurs(): BelongsToMany
     {
-        return $this->belongsToMany(app(UserEntity::class)::class, 'devi_fournisseurs')->withPivot('prix', 'validate', 'mail_sended');
+        return $this->belongsToMany(app(UserEntity::class)::class, 'devi_fournisseurs')
+            ->withPivot('prix', 'validate', 'mail_sended', 'bpa');
     }
 
     public function fournisseursValidated(): BelongsToMany
     {
         return $this->belongsToMany(app(UserEntity::class)::class, 'devi_fournisseurs')
-            ->withPivot('prix', 'validate', 'mail_sended')
+            ->withPivot('prix', 'validate', 'mail_sended', 'bpa')
             ->wherePivot('validate', true);
     }
 
