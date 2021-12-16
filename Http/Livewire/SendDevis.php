@@ -20,6 +20,10 @@ class SendDevis extends Component
     public function send(){
         $flowable = $this->devis->dossier;
         app(FlowContract::class)->add($flowable, (new DevisSendClient($this->devis)));
+
+        session()->flash('success', 'Devis envoyé au client');
+
+        return redirect()->route('dossiers.show', [$flowable->client, $flowable, $this->devis]);
     }
 
     public function render()
