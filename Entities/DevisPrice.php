@@ -12,6 +12,8 @@ class DevisPrice
     protected float $total_ttc = 0;
     protected bool $tva = false;
 
+    protected Brand $brand;
+
     protected Collection $trajets;
 
     /**
@@ -21,6 +23,7 @@ class DevisPrice
 
     public function __construct(Devi $devis, Brand $brand){
         $this->trajets = collect();
+        $this->brand = $brand;
         $this->getTrajetsTotal($devis, $brand);
 
         $this->total_ttc = $this->trajets->sum(function($item){
