@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
-use Modules\BaseCore\Contracts\Entities\UserEntity;
-use Modules\BaseCore\Models\User;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
@@ -19,7 +17,6 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
-use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 
 /**
@@ -49,8 +46,14 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         'fournisseur_id',
     ];
 
-    public function getIsMultipleAttribute(){
+    public function getIsMultipleAttribute()
+    {
         return count($this->data['trajets'] ?? []) > 1;
+    }
+
+    public function dossier(): BelongsTo
+    {
+        return $this->belongsTo(\Modules\CrmAutoCar\Models\Dossier::class);
     }
 
     public function fournisseur(): BelongsTo
@@ -66,7 +69,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function fournisseursValidated(): BelongsToMany
     {
-        return $this->belongsToMany(\Modules\CrmAutoCar\Models\Fournisseur::class, 'devi_fournisseurs', 'devi_id','user_id')
+        return $this->belongsToMany(\Modules\CrmAutoCar\Models\Fournisseur::class, 'devi_fournisseurs', 'devi_id', 'user_id')
             ->withPivot('prix', 'validate', 'mail_sended', 'bpa')
             ->wherePivot('validate', true);
     }
@@ -88,18 +91,14 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getTotal(): float
     {
-        return (new DevisPrice($this,  app(BrandsRepositoryContract::class)->getDefault()))->getPriceTTC();
+        return (new DevisPrice($this, app(BrandsRepositoryContract::class)->getDefault()))->getPriceTTC();
     }
 
     public function getDateDepartAttribute()
     {
-        if($this->isMultiple){
-
-        }else {
-            $date = $this->data['trajets'][0]['aller_date_depart'] ?? '';
-            if (!empty($date)) {
-                return Carbon::parse($date);
-            }
+        $date = $this->data['trajets'][0]['aller_date_depart'] ?? '';
+        if (!empty($date)) {
+            return Carbon::parse($date);
         }
 
         return '';
@@ -107,13 +106,14 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getDateRetourAttribute()
     {
-        if($this->isMultiple){
-
-        }else {
+        if ($this->isMultiple) {
+            $date = last($this->data['trajets'])['retour_date_depart'] ?? '';
+        } else {
             $date = $this->data['trajets'][0]['retour_date_depart'] ?? '';
-            if (!empty($date)) {
-                return Carbon::parse($date);
-            }
+        }
+
+        if (!empty($date)) {
+            return Carbon::parse($date);
         }
 
         return '';
@@ -141,10 +141,9 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getValidateAttribute()
     {
-        if(array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation' , $this->data) || array_key_exists('name_validation' , $this->data) || array_key_exists('address_validation' , $this->data))
-            {
-                return true;
-            } else {
+        if (array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation', $this->data) || array_key_exists('name_validation', $this->data) || array_key_exists('address_validation', $this->data)) {
+            return true;
+        } else {
             return false;
         }
     }
