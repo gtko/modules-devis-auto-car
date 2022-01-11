@@ -15,6 +15,7 @@ use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Models\Scopes\HasRef;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
@@ -87,15 +88,18 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getTotal(): float
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        return (new DevisPrice($this, $brand))->getPriceTTC();
+        return (new DevisPrice($this,  app(BrandsRepositoryContract::class)->getDefault()))->getPriceTTC();
     }
 
     public function getDateDepartAttribute()
     {
-        $date = $this->data['aller_date_depart'] ?? '';
-        if (!empty($date)) {
-            return Carbon::parse($date);
+        if($this->isMultiple){
+
+        }else {
+            $date = $this->data['trajets'][0]['aller_date_depart'] ?? '';
+            if (!empty($date)) {
+                return Carbon::parse($date);
+            }
         }
 
         return '';
@@ -103,9 +107,13 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getDateRetourAttribute()
     {
-        $date = $this->data['retour_date_depart'] ?? '';
-        if (!empty($date)) {
-            return Carbon::parse($date);
+        if($this->isMultiple){
+
+        }else {
+            $date = $this->data['trajets'][0]['retour_date_depart'] ?? '';
+            if (!empty($date)) {
+                return Carbon::parse($date);
+            }
         }
 
         return '';
