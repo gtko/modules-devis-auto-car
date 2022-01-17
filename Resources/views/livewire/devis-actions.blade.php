@@ -1,7 +1,6 @@
 <div class="flex items-center justify-between">
 
 
-
     @can('update', $devis)
         <a class="flex items-center"
            title="Editer le devis"
@@ -24,5 +23,10 @@
     @if($state === 'devis')
         <livewire:crmautocar::create-proformat :devis="$devis"/>
     @endif
+{{--    @if (Auth::user()->hasRole('super-admin'))--}}
+
+{{--        <livewire:devisautocar::delete-devis :devis="$devis"/>--}}
+
+{{--    @endif--}}
 
 </div>
