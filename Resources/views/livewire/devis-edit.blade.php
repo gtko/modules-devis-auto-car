@@ -106,11 +106,15 @@
             let addressFields;
             addressFields = document.querySelectorAll(selecteur);
             for (let addressField of addressFields) {
+
+
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
                     componentRestrictions: {},
                     fields: ["formatted_address", "geometry"],
+
                 });
+
                 autocomplete.addListener("place_changed", () => {
 
                     const place = autocomplete.getPlace()

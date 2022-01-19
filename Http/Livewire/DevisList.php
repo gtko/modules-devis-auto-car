@@ -15,6 +15,8 @@ class DevisList extends Component
     public $dossier = null;
     public $client = null;
 
+    protected $listeners = ['refreshDevi' => '$refresh'];
+
     public function mount( ClientEntity $client, Dossier $dossier, $devis){
         $this->client = $client;
         $this->dossier = $dossier;
