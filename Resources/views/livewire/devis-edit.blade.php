@@ -58,7 +58,7 @@
         <x-basecore::partials.card>
             <x-basecore::inputs.group class="w-full">
                 <x-basecore::inputs.checkbox
-                    wire:model.defer="devis.tva_applicable"
+                    wire:model="devis.tva_applicable"
                     name="tva_applicable"
                     label="Tva Applicable"
                     :checked="$devis->tva_applicable"
