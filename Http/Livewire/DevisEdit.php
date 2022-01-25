@@ -15,6 +15,7 @@ class DevisEdit extends Component
 
     public DevisEntities $devis;
     public $data = ['trajets' => []];
+    public $devis_titre;
 
     protected array $rules = [
         'data.*' => '',
@@ -26,27 +27,28 @@ class DevisEdit extends Component
         'devis:update' => "updateTrajetChild"
     ];
 
-    public function mount(DevisEntities $devis){
+    public function mount(DevisEntities $devis)
+    {
         $this->devis = $devis;
         $this->data = $this->devis->data ?? false;
 
-        if(!$this->data || !($this->data['trajets'] ?? false)){
+        if (!$this->data || !($this->data['trajets'] ?? false)) {
             $this->data = ['trajets' => []];
             $this->addTrajet();
         }
 
     }
 
-    public function store(DevisRepositoryContract $deviRep){
-        if(!$this->devis->invoice()->exists())
-        {
-            $deviRep->updateData($this->devis, $this->data);
+    public function store(DevisRepositoryContract $deviRep)
+    {
+        if (!$this->devis->invoice()->exists()) {
+            $deviRep->updateData($this->devis, $this->data, $this->devis_titre);
 
             session()->flash('success', __('basecore::crud.common.saved'));
 
             return redirect()
                 ->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier]);
-        }else{
+        } else {
             session()->flash('danger', "Une facture a été émise et je devis n'est plus modifiable.");
 
             return redirect()
@@ -54,7 +56,8 @@ class DevisEdit extends Component
         }
     }
 
-    public function updateTrajetChild($data){
+    public function updateTrajetChild($data)
+    {
         $this->data['trajets'][$data['id']] = $data['trajet'];
     }
 
@@ -89,6 +92,6 @@ class DevisEdit extends Component
 
         $invoice_exists = $this->devis->invoice()->exists();
 
-        return view('devisautocar::livewire.devis-edit', compact( 'invoice_exists'));
+        return view('devisautocar::livewire.devis-edit', compact('invoice_exists'));
     }
 }
