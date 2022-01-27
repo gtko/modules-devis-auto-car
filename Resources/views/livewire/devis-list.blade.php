@@ -13,6 +13,7 @@
             </tr>
             <tr class="bg-gray-100 text-gray-700">
                 <th class="whitespace-nowrap">#</th>
+                <th class="whitespace-nowrap">Titre</th>
                 <th class="whitespace-nowrap">Commercial</th>
                 <th class="whitespace-nowrap">Date du devis</th>
                 @foreach($brands as $brand)

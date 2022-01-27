@@ -1,5 +1,8 @@
 <div>
-
+    <div class="my-4 flex flex-col" >
+        <span>Titre de devis :</span>
+        <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"/>
+    </div>
     @if(count($data['trajets'] ?? []) > 0)
         <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un
             trajet

@@ -23,14 +23,11 @@
     @if($state === 'devis')
         <livewire:crmautocar::create-proformat :devis="$devis"/>
     @endif
-    @if($state === 'devis')
-        <livewire:devisautocar::duplicate-devis :devis="$devis"/>
 
-    @endif
-    {{--    @if (Auth::user()->hasRole('super-admin'))--}}
+    <livewire:devisautocar::duplicate-devis :devis="$devis"/>
 
-    {{--        <livewire:devisautocar::delete-devis :devis="$devis"/>--}}
 
-    {{--    @endif--}}
+    <livewire:devisautocar::delete-devis :devis="$devis"/>
+
 
 </div>
