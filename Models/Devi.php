@@ -18,6 +18,7 @@ use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\DevisAutoCar\Entities\DevisPrice;
+use Modules\SearchCRM\Entities\SearchResult;
 
 /**
  * Class Devi
@@ -155,5 +156,20 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         if ($this->proformat()->exists()) return 'proformat';
 
         return 'devis';
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $result = new SearchResult(
+            $this,
+            "#{$this->ref} - " . ($this->title ?? 'N/A').' '. $this->dossier->client->format_name,
+            route('devis.edit', [$this->dossier->client, $this->dossier, $this]),
+            'devis',
+            html:"<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->commercial->format_name}</small>"
+        );
+
+        $result->setImg($this->dossier->client->avatar_url);
+
+        return $result;
     }
 }
