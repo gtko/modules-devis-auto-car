@@ -32,14 +32,6 @@
         <x-basecore::partials.card>
             <div class="grid grid-cols-2">
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.basic label="N° de tel chauffeur Aller" name=""
-                                              wire:model.lazy="data.aller_tel_chauffeur"/>
-                </x-basecore::inputs.group>
-                <x-basecore::inputs.group>
-                    <x-basecore::inputs.basic label="N° de tel chauffeur Retour" name=""
-                                              wire:model.lazy="data.retour_tel_chauffeur"/>
-                </x-basecore::inputs.group>
-                <x-basecore::inputs.group>
                     <x-basecore::inputs.number label="Nombres de cars" name="" wire:model.lazy="data.nombre_bus"/>
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
@@ -68,19 +60,7 @@
                 />
             </x-basecore::inputs.group>
         </x-basecore::partials.card>
-        <div class="my-5">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Commentaire
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">
-                Commentaire accroché au devis
-            </p>
-        </div>
-        <x-basecore::inputs.textarea
-            wire:model="data.commentaire"
-            name="commentaire"
-            class="h-36"
-        />
+
 
         <div class="flex justify-between items-center mt-5">
             @if(!$invoice_exists)

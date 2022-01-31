@@ -20,62 +20,62 @@ class DevisEditProduct extends Component
         $this->trajetId = $trajetId;
         $this->trajet = $trajet;
 
-        if($trajetId == 0){
+        if ($trajetId == 0) {
             $this->open = true;
         }
 
     }
 
 
-
     protected function getListeners()
     {
         return [
-            'devis:update-'.$this->trajetId.'-data' => "updateData",
+            'devis:update-' . $this->trajetId . '-data' => "updateData",
             'devis:trajet-open' => "openForm"
         ];
     }
 
-    public function openForm($data){
-       $this->open = $this->trajetId === $data['id'];
+    public function openForm($data)
+    {
+        $this->open = $this->trajetId === $data['id'];
     }
 
 
-    public function updated(){
+    public function updated()
+    {
 
         $this->trajet['non_inclus_repas_chauffeur'] = !$this->trajet['inclus_repas_chauffeur'];
         $this->trajet['non_inclus_hebergement'] = !$this->trajet['inclus_hebergement'];
         $this->trajet['non_inclus_parking'] = !$this->trajet['inclus_parking'];
         $this->trajet['non_inclus_peages'] = !$this->trajet['inclus_peages'];
 
-        if(empty($this->trajet['retour_pax'] ?? null) && !empty($this->trajet['aller_pax'] ?? null) ){
+        if (empty($this->trajet['retour_pax'] ?? null) && !empty($this->trajet['aller_pax'] ?? null)) {
             $this->trajet['retour_pax'] = $this->trajet['aller_pax'];
         }
 
-        if(empty($this->trajet['aller_pax'] ?? null) && !empty($this->trajet['retour_pax'] ?? null) ){
+        if (empty($this->trajet['aller_pax'] ?? null) && !empty($this->trajet['retour_pax'] ?? null)) {
             $this->trajet['aller_pax'] = $this->trajet['retour_pax'];
         }
-
-        $this->emitUp('devis:update',['trajet' => $this->trajet, 'id' => $this->trajetId]);
+        $this->emitUp('devis:update', ['trajet' => $this->trajet, 'id' => $this->trajetId]);
     }
 
 
-
-    public function updateData($data){
-        if(Str::contains($data['name'], 'aller')){
-            if(Str::contains($data['name'], 'depart')) {
+    public function updateData($data)
+    {
+        if (Str::contains($data['name'], 'aller')) {
+            if (Str::contains($data['name'], 'depart')) {
                 $this->trajet['aller_point_depart'] = $data['format'];
                 $this->trajet['aller_point_depart_geo'] = $data['geo'];
-            }else{
+            } else {
                 $this->trajet['aller_point_arriver'] = $data['format'];
                 $this->trajet['aller_point_arriver_geo'] = $data['geo'];
             }
             $this->updateDistanceAller();
-        }else{
-            if(Str::contains($data['name'], 'depart')) {
+        } else {
+            if (Str::contains($data['name'], 'depart')) {
                 $this->trajet['retour_point_depart'] = $data['format'];
                 $this->trajet['retour_point_depart_geo'] = $data['geo'];
-            }else{
+            } else {
                 $this->trajet['retour_point_arriver'] = $data['format'];
                 $this->trajet['retour_point_arriver_geo'] = $data['geo'];
             }
@@ -83,16 +83,16 @@ class DevisEditProduct extends Component
         }
     }
 
-    public function updateDistanceAller(){
-        if(($this->trajet['aller_point_depart_geo'] ?? null) && ($this->trajet['aller_point_arriver_geo'] ?? null))
-        {
+    public function updateDistanceAller()
+    {
+        if (($this->trajet['aller_point_depart_geo'] ?? null) && ($this->trajet['aller_point_arriver_geo'] ?? null)) {
             $this->trajet['aller_distance'] = app(DistanceApiContract::class)
                 ->distance(
-                    $this->trajet['aller_point_depart_geo'] ,
+                    $this->trajet['aller_point_depart_geo'],
                     $this->trajet['aller_point_arriver_geo']
                 )->toArray();
 
-            if(!($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['retour_point_arriver_geo'] ?? null)){
+            if (!($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['retour_point_arriver_geo'] ?? null)) {
                 $this->trajet['retour_point_depart_geo'] = $this->trajet['aller_point_arriver_geo'];
                 $this->trajet['retour_point_arriver_geo'] = $this->trajet['aller_point_depart_geo'];
 
@@ -102,22 +102,23 @@ class DevisEditProduct extends Component
                 $this->updateDistanceRetour();
             }
         }
-        if(($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['addresse_ramassage'] ?? null)){
+        if (($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['addresse_ramassage'] ?? null)) {
             $this->trajet['addresse_ramassage'] = $this->trajet['aller_point_depart'];
         }
 
         $this->updated();
     }
-    public function updateDistanceRetour(){
-        if(($this->trajet['retour_point_depart_geo'] ?? null) && ($this->trajet['retour_point_arriver_geo'] ?? null))
-        {
+
+    public function updateDistanceRetour()
+    {
+        if (($this->trajet['retour_point_depart_geo'] ?? null) && ($this->trajet['retour_point_arriver_geo'] ?? null)) {
             $this->trajet['retour_distance'] = app(DistanceApiContract::class)
                 ->distance(
-                    $this->trajet['retour_point_depart_geo'] ,
+                    $this->trajet['retour_point_depart_geo'],
                     $this->trajet['retour_point_arriver_geo']
                 )->toArray();
 
-            if(!($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['aller_point_arriver_geo'] ?? null)){
+            if (!($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['aller_point_arriver_geo'] ?? null)) {
                 $this->trajet['aller_point_depart_geo'] = $this->trajet['retour_point_arriver_geo'];
                 $this->trajet['aller_point_arriver_geo'] = $this->trajet['retour_point_depart_geo'];
 
@@ -128,7 +129,7 @@ class DevisEditProduct extends Component
             }
         }
 
-        if(($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['addresse_destination'] ?? null)){
+        if (($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['addresse_destination'] ?? null)) {
             $this->trajet['addresse_destination'] = $this->trajet['retour_point_depart'];
         }
 

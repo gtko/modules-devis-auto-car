@@ -38,6 +38,7 @@
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
+
             @if(($trajet['aller_distance'] ?? null))
                 <livewire:devisautocar::devis-distance :distance="$trajet['aller_distance']" />
             @endif
@@ -137,6 +138,19 @@
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
+            <div class="my-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Commentaire
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Commentaire accroché au devis
+                </p>
+            </div>
+            <x-basecore::inputs.textarea
+                wire:model="trajet.commentaire"
+                name="commentaire"
+                class="h-36"
+            />
         </div>
     </div>
     <script>
