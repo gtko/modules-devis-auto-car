@@ -1,5 +1,5 @@
 <div>
-    <div class="my-4 flex flex-col" >
+    <div class="my-4 flex flex-col">
         <span>Titre de devis :</span>
         <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"/>
     </div>
@@ -11,7 +11,11 @@
 
     <div>
         @forelse(($data['trajets'] ?? []) as $keyTrajet => $trajet)
+
             <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
+            <span class="btn btn-danger my-2 form-control-sm" wire:click="removeTrajet({{$keyTrajet}})">
+                @icon('delete', null, 'mr-2')
+                Delete le  trajet</span>
         @empty
             <div
                 class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
@@ -82,6 +86,7 @@
                 </div>
             @endif
         </div>
+
     </div>
 
     <script>
