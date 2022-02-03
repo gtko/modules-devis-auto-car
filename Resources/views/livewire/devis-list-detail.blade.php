@@ -1,4 +1,4 @@
-<tr>
+<tr class="@if($devi->validate) bg-green-600 @endif">
     <td class="border-b dark:border-dark-5">
         <a href="{{route('devis.edit', [$client, $dossier, $devi])}}">#{{$devi->ref}}</a>
     </td>

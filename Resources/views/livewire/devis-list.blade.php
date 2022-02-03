@@ -26,7 +26,8 @@
             <tbody>
             @foreach($devis as $devi)
 
-                <livewire:devisautocar::devis-list-detail :devi="$devi" :client="$client" :dossier="$dossier" :brands="$brands" :key="$devi->id"/>
+                <livewire:devisautocar::devis-list-detail :devi="$devi" :client="$client" :dossier="$dossier"
+                                                          :brands="$brands" :key="$devi->id"/>
             @endforeach
             </tbody>
         </table>
