@@ -34,7 +34,7 @@ class DevisList extends Component
         return view('devisautocar::livewire.devis-list', [
             'brands' => Brand::all(),
             'client' => $this->client,
-            'devis' => $devisRep->getDevisByDossier( $this->dossier)
+            'devis' => $devisRep->getDevisByDossier($this->dossier, 5)
         ]);
     }
 }
