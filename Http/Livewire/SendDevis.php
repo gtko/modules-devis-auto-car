@@ -11,19 +11,29 @@ class SendDevis extends Component
 {
     public $devis;
 
+
+
     public function mount($devis){
         $this->devis = $devis;
+    }
+
+    public function getListeners()
+    {
+        return [
+            'senddevis:confirm_'.$this->devis->id => 'confirm'
+        ];
     }
 
     public function send(){
         $this->emit('send-mail:open', [
             'observable' => DevisSendClient::class,
-            'params' => [$this->devis],
-            'flowable' => $this->devis->dossier
+            'callback' => 'senddevis:confirm_'.$this->devis->id
         ]);
     }
 
-    public function confirm(){
+    public function confirm($data){
+
+        dd($data);
 
         $flowable = $this->devis->dossier;
         app(FlowContract::class)->add($flowable, (new DevisSendClient($this->devis)));
