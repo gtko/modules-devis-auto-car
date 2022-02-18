@@ -4,6 +4,7 @@ namespace Modules\DevisAutoCar\Http\Livewire;
 
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Services\FlowContract;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 
@@ -33,10 +34,10 @@ class SendDevis extends Component
 
     public function confirm($data){
 
-        dd($data);
-
         $flowable = $this->devis->dossier;
-        app(FlowContract::class)->add($flowable, (new DevisSendClient($this->devis)));
+        app(FlowContract::class)->add($flowable, (new DevisSendClient($this->devis)), [
+            ActionsSendNotification::class => $data
+        ]);
         session()->flash('success', 'Devis envoyé au client');
         return redirect()->route('dossiers.show', [$flowable->client, $flowable, $this->devis]);
     }
