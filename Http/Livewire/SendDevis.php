@@ -31,9 +31,13 @@ class SendDevis extends Component
         $flowable = $this->devis->dossier;
         $this->emit('send-mail:open', [
             'flowable' => [Dossier::class, $this->devis->dossier->id],
-            'observable' => DevisSendClient::class,
-            'params' => [
-                'devis_id' => $this->devis->id
+            'observable' => [
+                [
+                    DevisSendClient::class,
+                    [
+                        'devis_id' => $this->devis->id
+                    ]
+                ]
             ],
             'callback' => 'senddevis:confirm_'.$this->devis->id
         ]);
