@@ -29,5 +29,9 @@
 
     <livewire:devisautocar::delete-devis :devis="$devis"/>
 
+    <livewire:devisautocar::send-devis-whatapps :devis="$devis"/>
+
+    <livewire:devisautocar::rappel-devis-whatsapp :devis="$devis"/>
+
 
 </div>
