@@ -15,6 +15,7 @@ class DevisPrice
     protected Brand $brand;
 
     protected Collection $trajets;
+    protected Collection $lines;
 
     /**
      * @param \Modules\DevisAutoCar\Models\Devi $devis
@@ -23,12 +24,18 @@ class DevisPrice
 
     public function __construct(Devi $devis, Brand $brand){
         $this->trajets = collect();
+        $this->lines = collect();
         $this->brand = $brand;
         $this->getTrajetsTotal($devis, $brand);
+        $this->getLinesTotal($devis);
 
         $this->total_ttc = $this->trajets->sum(function($item){
             return $item->getPriceTTC();
+        }) + $this->lines->sum(function($item){
+            return $item->getPriceTTC();
         });
+
+
         $this->tva = (bool) ($devis->tva_applicable ?? true);
     }
 
@@ -38,12 +45,26 @@ class DevisPrice
         }
     }
 
+    protected function getLinesTotal(Devi $devis){
+        foreach(($devis->data['lines'] ?? [])as $id => $line){
+            $this->lines->push(new DevisLinePrice($devis, $id));
+        }
+    }
+
     public function getTrajets(){
         return $this->trajets;
     }
 
+    public function getLines(){
+        return $this->lines;
+    }
+
     public function getTrajet($id){
         return $this->trajets[$id] ?? null;
+    }
+
+    public function getLine($id){
+        return $this->lines[$id] ?? null;
     }
 
     public function getPriceTTC(){
