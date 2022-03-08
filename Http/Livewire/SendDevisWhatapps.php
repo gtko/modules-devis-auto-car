@@ -2,8 +2,13 @@
 
 namespace Modules\DevisAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
+use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisSendWhatsapp;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappelWhatsapp;
 
 class SendDevisWhatapps extends Component
 {
@@ -12,6 +17,15 @@ class SendDevisWhatapps extends Component
     public function mount($devis)
     {
         $this->devis = $devis;
+    }
+
+
+    public function send($devis)
+    {
+        $devis = app(DevisRepositoryContract::class)->fetchById($devis['id']);
+
+        (new FlowCRM())->add($devis->dossier, new ClientDossierDevisSendWhatsapp(Auth::user(), $devis));
+        $this->emit('refreshTimeline');
     }
 
     public function render()
@@ -25,7 +39,6 @@ class SendDevisWhatapps extends Component
         $message = $text . ' ' . $this->link;
 
         $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . $message;
-
 
 
         return view('devisautocar::livewire.send-devis-whatapps',

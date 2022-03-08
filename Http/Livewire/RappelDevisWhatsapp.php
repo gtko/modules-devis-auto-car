@@ -2,8 +2,15 @@
 
 namespace Modules\DevisAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Modules\CallCRM\Flow\Attributes\ClientDossierAppelCreate;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
+use Modules\CoreCRM\Contracts\Services\FlowContract;
+use Modules\CoreCRM\Flow\Attributes\ClientDossierCreate;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappelWhatsapp;
 
 class RappelDevisWhatsapp extends Component
 {
@@ -16,7 +23,7 @@ class RappelDevisWhatsapp extends Component
 
     public function send()
     {
-        dd('ss');
+        (new FlowCRM())->add($this->dossier, new ClientDossierRappelWhatsapp($this->dossier, Auth::user()));
         $this->emit('refreshTimeline');
     }
 
