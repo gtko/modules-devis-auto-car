@@ -21,6 +21,7 @@ class DevisEdit extends Component
         'data.*' => '',
         'data.trajets' => '',
         'devis.tva_applicable' => '',
+        'devis_titre' => '',
     ];
 
     protected $listeners = [
@@ -30,13 +31,12 @@ class DevisEdit extends Component
     public function mount(DevisEntities $devis)
     {
         $this->devis = $devis;
-        $this->data = $this->devis->data ?? false;
+        $this->data = ($this->devis->data ?? []);
+        $this->devis_titre = ($this->devis->title ?? '');
 
-        if (!$this->data || !($this->data['trajets'] ?? false)) {
+        if (!$this->data || array_key_exists('trajets', $this->data) === false) {
             $this->data = ['trajets' => []];
-            $this->addTrajet();
         }
-
     }
 
     public function store(DevisRepositoryContract $deviRep)
@@ -80,6 +80,19 @@ class DevisEdit extends Component
     public function removeTrajet($trajet)
     {
         unset($this->data['trajets'][$trajet]);
+    }
+
+    public function addLine(){
+        $this->data['lines'][] = [
+            'line' => '',
+            'qte' => 1,
+            'tva' => 1.1,
+            'pu' => 0,
+        ];
+    }
+
+    public function removeLine($line){
+        unset($this->data['lines'][$line]);
     }
 
     /**

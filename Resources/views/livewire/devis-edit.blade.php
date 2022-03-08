@@ -3,28 +3,66 @@
         <span>Titre de devis :</span>
         <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"/>
     </div>
-    @if(count($data['trajets'] ?? []) > 0)
+    @if(count($data['trajets'] ?? []) > 0 || count($data['lines'] ?? []) > 0)
         <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un
             trajet
+        </button>
+
+        <button wire:click="addLine" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter une
+            ligne
         </button>
     @endif
 
     <div>
-        @forelse(($data['trajets'] ?? []) as $keyTrajet => $trajet)
+        @foreach(($data['trajets'] ?? []) as $keyTrajet => $trajet)
 
             <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
             <span class="btn btn-danger my-2 form-control-sm" wire:click="removeTrajet({{$keyTrajet}})">
                 @icon('delete', null, 'mr-2')
-                Delete le  trajet</span>
-        @empty
+                Supprimer le  trajet</span>
+        @endforeach
+
+        @if(!empty($data['lines'] ?? []))
+                <div class="my-5">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Lignes
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                       Ajouter des options au devis
+                    </p>
+                </div>
+            @foreach(($data['lines'] ?? []) as $keyLine => $line)
+                <div class="group flex w-full bg-white p-3 justify-between items-center cursor-pointer">
+                    <div class="grid grid-cols-12 gap-x-3 items-center">
+                        <x-basecore::inputs.text class='col-span-6' name="line" placeholder="ligne" wire:model="data.lines.{{$keyLine}}.line"/>
+                        <x-basecore::inputs.text class='col-span-1' name="qte" placeholder="Qte" wire:model="data.lines.{{$keyLine}}.qte"/>
+                        <x-basecore::inputs.text class='col-span-2' name="pu" placeholder="Prix unitaire" wire:model="data.lines.{{$keyLine}}.pu"/>
+                        <div class="whitespace-nowrap font-bold">
+                            @marge(($line['qte'] * $line['pu']) * $line['tva'])€
+                        </div>
+                    </div>
+                    <div wire:click="removeLine({{$keyLine}})" class="hover:text-red-700 cursor-pointer">
+                        @icon('delete', null, 'mr-2')
+                    </div>
+                </div>
+            @endforeach
+        @endif
+
+        @if(empty($data['trajets'] ?? []) && empty($data['lines'] ?? []))
             <div
                 class="flex flex-col justify-center items-center h-48 w-full border-warning border-4 border-dashed border-gray-400">
-                <span class="text-gray-500 font-bold text-2xl mb-3">Ajouter un trajet à ce devis</span>
-                <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter
-                    un trajet
-                </button>
+                <span class="text-gray-500 font-bold text-2xl mb-3">Ajouter un trajet ou une ligne à ce devis</span>
+                <div class="flex justify-center items-center space-x-2">
+                    <button wire:click="addTrajet" class="btn btn-primary">
+                        @icon('trajet', null, 'mr-2 text-white') Ajouter un trajet
+                    </button>
+
+                    <button wire:click="addLine" class="btn btn-primary">
+                        @icon('note', null, 'mr-2 text-white') Ajouter une ligne
+                    </button>
+                </div>
             </div>
-        @endforelse
+        @endif
         <div class="my-5">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Informations
@@ -45,6 +83,22 @@
 
             </div>
         </x-basecore::partials.card>
+
+            <div class="my-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Entête
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                   Entête du devis
+                </p>
+            </div>
+            <x-basecore::partials.card>
+                <x-basecore::inputs.textarea
+                    wire:model="data.entete"
+                    name="entete"
+                    class="h-36"
+                />
+            </x-basecore::partials.card>
 
         <div class="my-5">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
