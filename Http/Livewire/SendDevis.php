@@ -8,6 +8,7 @@ use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Flow\Attributes\DevisSendManualClient;
 use Modules\CrmAutoCar\Models\Dossier;
 
 class SendDevis extends Component
@@ -33,7 +34,7 @@ class SendDevis extends Component
             'flowable' => [Dossier::class, $this->devis->dossier->id],
             'observable' => [
                 [
-                    DevisSendClient::class,
+                    DevisSendManualClient::class,
                     [
                         'devis_id' => $this->devis->id
                     ]
