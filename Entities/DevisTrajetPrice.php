@@ -9,6 +9,8 @@ class DevisTrajetPrice
 {
 
     protected float $total_ttc = 0;
+    protected  $devis = null;
+    protected  $id_trajet = null;
     protected bool $tva = false;
 
     /**
@@ -56,9 +58,14 @@ class DevisTrajetPrice
          */
 
 
-
+        $this->devis = $devis;
+        $this->id_trajet = $idTrajet;
         $this->total_ttc = (float) ($devis->data['trajets'][$idTrajet]['brands'][$brand->id] ?? 0);
         $this->tva = (bool) ($devis->tva_applicable ?? true);
+    }
+
+    public function getTrajets(){
+        return collect([$this->devis->data['trajets'][$this->id_trajet]]);
     }
 
     public function getPriceTTC(){
