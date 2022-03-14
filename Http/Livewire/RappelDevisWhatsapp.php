@@ -32,7 +32,20 @@ class RappelDevisWhatsapp extends Component
         $phone = $this->dossier->client->personne->phones->first()->phone;
         $phone = substr($phone, 1);
         $phone = '33' . $phone;
-        $text = "Votre conseillé Centrale Autocar a essayé de vous joindre vous pouvais le rapeller au " . ' ' . $this->dossier->commercial->phone;
+
+        $signature = $this->dossier->commercial->format_nom ."\n" . $this->dossier->commercial->email."\n" . $this->dossier->commercial->phone;
+        $text = <<<TEXT
+Bienvenue chez Centrale Autocar.
+J'ai bien reçu recherche de transfert en autocar, cependant je n'ai pas réussi à vous joindre afin d’affiner votre projet.
+
+A quel moment pouvons nous fixer ensemble un RDV téléphonique?
+
+D'ici là, je vous invite à me faire part de vos critères par whatsapp  afin que je puisse avancer dans mes recherches :
+
+Je me ferai un plaisir de vous renseigner.
+
+$signature
+TEXT;
 
         $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . $text;
 
@@ -44,4 +57,3 @@ class RappelDevisWhatsapp extends Component
         );
     }
 }
-
