@@ -152,7 +152,9 @@
 
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
-                    componentRestrictions: {},
+                    componentRestrictions: {
+                        'country' : 'fr'
+                    },
                     fields: ["formatted_address", "geometry"],
 
                 });

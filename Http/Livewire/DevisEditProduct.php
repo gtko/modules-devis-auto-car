@@ -62,6 +62,7 @@ class DevisEditProduct extends Component
 
     public function updateData($data)
     {
+
         if (Str::contains($data['name'], 'aller')) {
             if (Str::contains($data['name'], 'depart')) {
                 $this->trajet['aller_point_depart'] = $data['format'];
@@ -89,7 +90,9 @@ class DevisEditProduct extends Component
             $this->trajet['aller_distance'] = app(DistanceApiContract::class)
                 ->distance(
                     $this->trajet['aller_point_depart_geo'],
-                    $this->trajet['aller_point_arriver_geo']
+                    $this->trajet['aller_point_arriver_geo'],
+                    $this->trajet['aller_point_depart'],
+                    $this->trajet['aller_point_arriver']
                 )->toArray();
 
             if (!($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['retour_point_arriver_geo'] ?? null)) {
@@ -115,7 +118,9 @@ class DevisEditProduct extends Component
             $this->trajet['retour_distance'] = app(DistanceApiContract::class)
                 ->distance(
                     $this->trajet['retour_point_depart_geo'],
-                    $this->trajet['retour_point_arriver_geo']
+                    $this->trajet['retour_point_arriver_geo'],
+                    $this->trajet['retour_point_depart'],
+                    $this->trajet['retour_point_arriver']
                 )->toArray();
 
             if (!($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['aller_point_arriver_geo'] ?? null)) {
