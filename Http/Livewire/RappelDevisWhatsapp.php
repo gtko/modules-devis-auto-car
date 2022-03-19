@@ -29,7 +29,7 @@ class RappelDevisWhatsapp extends Component
 
     public function render()
     {
-        $phone = $this->dossier->client->personne->phones->first()->phone;
+        $phone = $this->dossier->client->personne->phones->first()->phone ?? '';
         $phone = substr($phone, 1);
         $phone = '33' . $phone;
 
