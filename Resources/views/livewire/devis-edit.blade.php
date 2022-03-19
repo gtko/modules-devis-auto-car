@@ -31,6 +31,13 @@
                        Ajouter des options au devis
                     </p>
                 </div>
+            <div>
+                <div class="grid grid-cols-12 gap-x-3 items-center mb-2">
+                    <div class='col-span-6 font-bold'>Nom</div>
+                    <div class='col-span-1 font-bold'>Qté</div>
+                    <div class='col-span-2 font-bold'>PU</div>
+                </div>
+            </div>
             @foreach(($data['lines'] ?? []) as $keyLine => $line)
                 <div class="group flex w-full bg-white p-3 justify-between items-center cursor-pointer">
                     <div class="grid grid-cols-12 gap-x-3 items-center">
