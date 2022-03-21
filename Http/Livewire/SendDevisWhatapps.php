@@ -31,7 +31,7 @@ class SendDevisWhatapps extends Component
     public function render()
     {
         $this->link = (new GenerateLinkDevis())->GenerateLink($this->devis);
-        $phone = $this->devis->dossier->client->personne->phones->first()->phone;
+        $phone = $this->devis->dossier->client->personne->phones->first()->phone ?? '';
         $phone = substr($phone, 1);
         $phone = '33' . $phone;
 
