@@ -46,6 +46,8 @@ class SendDevis extends Component
 
     public function confirm($data){
         $flowable = $this->devis->dossier;
+
+        app(FlowContract::class)->instance($flowable, (new DevisSendClient($this->devis)));
         session()->flash('success', 'Devis envoyé au client');
         return redirect()->route('dossiers.show', [$flowable->client, $flowable, $this->devis]);
     }
