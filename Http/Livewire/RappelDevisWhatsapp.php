@@ -36,7 +36,7 @@ class RappelDevisWhatsapp extends Component
         $signature = $this->dossier->commercial->format_nom ."\n" . $this->dossier->commercial->email."\n" . $this->dossier->commercial->phone;
         $text = <<<TEXT
 Bienvenue chez Centrale Autocar.
-J'ai bien reçu recherche de transfert en autocar, cependant je n'ai pas réussi à vous joindre afin d’affiner votre projet.
+J'ai bien reçu votre recherche de transfert en autocar, cependant je n'ai pas réussi à vous joindre afin d’affiner votre projet.
 
 A quel moment pouvons nous fixer ensemble un RDV téléphonique?
 
