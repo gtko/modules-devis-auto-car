@@ -18,6 +18,7 @@
         <td class="border-b dark:border-dark-5"></td>
     @endforeach
     <td class="border-b dark:border-dark-5">
+
         <livewire:devisautocar::devis-actions :devis="$devi"/>
     </td>
 </tr>

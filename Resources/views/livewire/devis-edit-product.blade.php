@@ -23,7 +23,11 @@
             <x-basecore::partials.card>
                 <div class="w-full grid grid-cols-4">
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.datetime label="Date de départ" name="aller_date_depart" wire:model="trajet.aller_date_depart" placeholder="Date de départ"/>
+                        <x-basecore::inputs.datetime label="Date de départ" name="aller_date_depart"
+                                                     wire:model="trajet.aller_date_depart"
+                                                     placeholder="Date de départ"
+                                                     required
+                        />
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
                         <x-basecore::inputs.basic label="Point de départ" class='addressmap' data-trajet="{{$trajetId}}" name="aller_point_depart"  wire:model="trajet.aller_point_depart" placeholder="Ville, adresse , ..."/>
@@ -54,7 +58,12 @@
             <x-basecore::partials.card>
                 <div class="w-full grid grid-cols-4">
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.datetime label="Date de départ"  name="retour_date_depart" wire:model.lazy="trajet.retour_date_depart" placeholder="Date de départ"/>
+                        <x-basecore::inputs.datetime label="Date de départ"
+                                                     name="retour_date_depart"
+                                                     wire:model.lazy="trajet.retour_date_depart"
+                                                     placeholder="Date de départ"
+                                                     required
+                        />
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
                         <x-basecore::inputs.basic label="Point de départ" class='addressmap' data-trajet="{{$trajetId}}" name="retour_point_depart" wire:model.lazy="trajet.retour_point_depart" placeholder="Ville, adresse , ..."/>
