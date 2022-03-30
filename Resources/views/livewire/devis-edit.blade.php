@@ -13,7 +13,7 @@
         <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un
             trajet
         </button>
-K
+
         <button wire:click="addLine" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter une
             ligne
         </button>
