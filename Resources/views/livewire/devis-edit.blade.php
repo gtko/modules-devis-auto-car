@@ -1,13 +1,19 @@
 <div>
     <div class="my-4 flex flex-col">
         <span>Titre de devis :</span>
-        <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"/>
+
+        @if(count($data['trajets']) == 0)
+            <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"
+                                     wire:keydown.enter="addTrajet"/>
+        @else
+            <x-basecore::inputs.text name="devis_titre" wire:model="devis_titre" class="form-control-sm"/>
+        @endif
     </div>
     @if(count($data['trajets'] ?? []) > 0 || count($data['lines'] ?? []) > 0)
         <button wire:click="addTrajet" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter un
             trajet
         </button>
-
+K
         <button wire:click="addLine" class="btn btn-primary">@icon('trajet', null, 'mr-2 text-white') Ajouter une
             ligne
         </button>
@@ -23,14 +29,14 @@
         @endforeach
 
         @if(!empty($data['lines'] ?? []))
-                <div class="my-5">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        Lignes
-                    </h3>
-                    <p class="mt-1 text-sm text-gray-500">
-                       Ajouter des options au devis
-                    </p>
-                </div>
+            <div class="my-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Lignes
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Ajouter des options au devis
+                </p>
+            </div>
             <div>
                 <div class="grid grid-cols-12 gap-x-3 items-center mb-2">
                     <div class='col-span-6 font-bold'>Nom</div>
@@ -41,9 +47,12 @@
             @foreach(($data['lines'] ?? []) as $keyLine => $line)
                 <div class="group flex w-full bg-white p-3 justify-between items-center cursor-pointer">
                     <div class="grid grid-cols-12 gap-x-3 items-center">
-                        <x-basecore::inputs.text class='col-span-6' name="line" placeholder="ligne" wire:model="data.lines.{{$keyLine}}.line"/>
-                        <x-basecore::inputs.text class='col-span-1' name="qte" placeholder="Qte" wire:model="data.lines.{{$keyLine}}.qte"/>
-                        <x-basecore::inputs.text class='col-span-2' name="pu" placeholder="Prix unitaire" wire:model="data.lines.{{$keyLine}}.pu"/>
+                        <x-basecore::inputs.text class='col-span-6' name="line" placeholder="ligne"
+                                                 wire:model="data.lines.{{$keyLine}}.line"/>
+                        <x-basecore::inputs.text class='col-span-1' name="qte" placeholder="Qte"
+                                                 wire:model="data.lines.{{$keyLine}}.qte"/>
+                        <x-basecore::inputs.text class='col-span-2' name="pu" placeholder="Prix unitaire"
+                                                 wire:model="data.lines.{{$keyLine}}.pu"/>
                         <div class="whitespace-nowrap font-bold">
                             @marge(($line['qte'] * $line['pu']) * $line['tva'])€
                         </div>
@@ -91,21 +100,21 @@
             </div>
         </x-basecore::partials.card>
 
-            <div class="my-5">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Entête
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                   Entête du devis
-                </p>
-            </div>
-            <x-basecore::partials.card>
-                <x-basecore::inputs.textarea
-                    wire:model="data.entete"
-                    name="entete"
-                    class="h-36"
-                />
-            </x-basecore::partials.card>
+        <div class="my-5">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Entête
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+                Entête du devis
+            </p>
+        </div>
+        <x-basecore::partials.card>
+            <x-basecore::inputs.textarea
+                wire:model="data.entete"
+                name="entete"
+                class="h-36"
+            />
+        </x-basecore::partials.card>
 
         <div class="my-5">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -160,7 +169,7 @@
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
                     componentRestrictions: {
-                        'country' : 'fr'
+                        'country': 'fr'
                     },
                     fields: ["formatted_address", "geometry"],
 
@@ -173,11 +182,11 @@
                     let geoField = document.querySelector('[name=' + addressField.getAttribute('name') + "_geo_" + addressField.getAttribute('data-trajet') + ']')
                     geoField.value = latlng
                     addressField.value = place.formatted_address
-                @this.emit('devis:update-' + addressField.getAttribute('data-trajet') + '-data', {
-                    'name': addressField.getAttribute('name'),
-                    'format': place.formatted_address,
-                    'geo': latlng
-                })
+                    @this.emit('devis:update-' + addressField.getAttribute('data-trajet') + '-data', {
+                        'name': addressField.getAttribute('name'),
+                        'format': place.formatted_address,
+                        'geo': latlng
+                    })
                 });
             }
         }
