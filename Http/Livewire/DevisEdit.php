@@ -64,14 +64,10 @@ class DevisEdit extends Component
     public function addTrajet()
     {
         $this->data['trajets'][] = [
-            'inclus_repas_chauffeur' => false,
-            'inclus_hebergement' => false,
-            'inclus_parking' => false,
-            'inclus_peages' => true,
-            'non_inclus_repas_chauffeur' => true,
-            'non_inclus_hebergement' => true,
-            'non_inclus_parking' => true,
-            'non_inclus_peages' => false,
+            'repas_chauffeur' => 'non_compris',
+            'hebergement' => 'non_compris',
+            'parking' => 'non_compris',
+            'peages' => 'compris',
         ];
 
         $this->emit('devis:trajet-open', ['id' => count($this->data['trajets']) - 1]);
