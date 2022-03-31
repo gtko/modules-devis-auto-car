@@ -152,7 +152,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function getSendableAttribute(){
         $sendable = true;
 
-        foreach($this->data['trajets'] as $trajet) {
+        foreach(($this->data['trajets'] ?? []) as $trajet) {
             if (!($trajet['aller_date_depart'] ?? false)) {
                 $sendable = false;
             }

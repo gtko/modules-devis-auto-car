@@ -45,7 +45,7 @@
             </x-basecore::partials.card>
 
             @if(($trajet['aller_distance'] ?? null))
-                <livewire:devisautocar::devis-distance :distance="$trajet['aller_distance']" />
+                <livewire:devisautocar::devis-distance :key="md5(json_encode($trajet['aller_distance']))" :distance="$trajet['aller_distance']" />
             @endif
 
             <div class="my-5">
@@ -80,7 +80,7 @@
                 </div>
             </x-basecore::partials.card>
             @if(($trajet['retour_distance'] ?? null))
-                <livewire:devisautocar::devis-distance :distance="$trajet['retour_distance']"/>
+                <livewire:devisautocar::devis-distance :key="md5(json_encode($trajet['retour_distance']))" :distance="$trajet['retour_distance']"/>
             @endif
 
             <div class="my-5">
@@ -201,12 +201,21 @@
             <x-basecore::partials.card>
                 <div class="grid grid-cols-2">
                     <x-basecore::inputs.group>
-                        <x-basecore::inputs.basic label="Adresse de ramassage" name=""
+                        <x-basecore::inputs.basic label="Adresse de ramassage du trajet aller" name=""
                                                   wire:model.lazy="trajet.addresse_ramassage"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group>
-                        <x-basecore::inputs.basic label="Adresse de destination" name=""
+                        <x-basecore::inputs.basic label="Adresse de destination du trajet aller" name=""
                                                   wire:model.lazy="trajet.addresse_destination"/>
+                    </x-basecore::inputs.group>
+
+                    <x-basecore::inputs.group>
+                        <x-basecore::inputs.basic label="Adresse de ramassage du trajet retour" name=""
+                                                  wire:model.lazy="trajet.addresse_ramassage_retour"/>
+                    </x-basecore::inputs.group>
+                    <x-basecore::inputs.group>
+                        <x-basecore::inputs.basic label="Adresse de destination du trajet retour" name=""
+                                                  wire:model.lazy="trajet.addresse_destination_retour"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>

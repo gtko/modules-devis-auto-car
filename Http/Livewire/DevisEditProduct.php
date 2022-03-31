@@ -104,7 +104,7 @@ class DevisEditProduct extends Component
 
     public function updateDistanceAller()
     {
-        if (($this->trajet['aller_point_depart_geo'] ?? null) && ($this->trajet['aller_point_arriver_geo'] ?? null)) {
+        if (($this->trajet['aller_point_depart_geo'] ?? false) && ($this->trajet['aller_point_arriver_geo'] ?? false)) {
             $this->trajet['aller_distance'] = app(DistanceApiContract::class)
                 ->distance(
                     $this->trajet['aller_point_depart_geo'],
@@ -112,6 +112,7 @@ class DevisEditProduct extends Component
                     $this->trajet['aller_point_depart'],
                     $this->trajet['aller_point_arriver']
                 )->toArray();
+
 
             if (!($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['retour_point_arriver_geo'] ?? null)) {
                 $this->trajet['retour_point_depart_geo'] = $this->trajet['aller_point_arriver_geo'];
@@ -123,8 +124,13 @@ class DevisEditProduct extends Component
                 $this->updateDistanceRetour();
             }
         }
-        if (($this->trajet['aller_point_depart_geo'] ?? null) && !($this->trajet['addresse_ramassage'] ?? null)) {
+
+        if (($this->trajet['aller_point_depart_geo'] ?? null)) {
             $this->trajet['addresse_ramassage'] = $this->trajet['aller_point_depart'];
+        }
+
+        if (($this->trajet['aller_point_arriver_geo'] ?? null)) {
+            $this->trajet['addresse_destination'] = $this->trajet['aller_point_arriver'];
         }
 
         $this->updated();
@@ -132,7 +138,7 @@ class DevisEditProduct extends Component
 
     public function updateDistanceRetour()
     {
-        if (($this->trajet['retour_point_depart_geo'] ?? null) && ($this->trajet['retour_point_arriver_geo'] ?? null)) {
+        if (($this->trajet['retour_point_depart_geo'] ?? false) && ($this->trajet['retour_point_arriver_geo'] ?? false)) {
             $this->trajet['retour_distance'] = app(DistanceApiContract::class)
                 ->distance(
                     $this->trajet['retour_point_depart_geo'],
@@ -152,8 +158,12 @@ class DevisEditProduct extends Component
             }
         }
 
-        if (($this->trajet['retour_point_depart_geo'] ?? null) && !($this->trajet['addresse_destination'] ?? null)) {
-            $this->trajet['addresse_destination'] = $this->trajet['retour_point_depart'];
+        if (($this->trajet['retour_point_depart_geo'] ?? null)) {
+            $this->trajet['addresse_ramassage_retour'] = $this->trajet['retour_point_depart'];
+        }
+
+        if (($this->trajet['retour_point_arriver_geo'] ?? null)) {
+            $this->trajet['addresse_destination_retour'] = $this->trajet['retour_point_arriver'];
         }
 
         $this->updated();
