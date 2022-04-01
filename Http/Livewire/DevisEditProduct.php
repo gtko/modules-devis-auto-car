@@ -43,29 +43,21 @@ class DevisEditProduct extends Component
 
     public function changeOption($option)
     {
-        if (($this->trajet[$option] ?? false) == 'compris')
-        {
+        if (($this->trajet[$option] ?? false) == 'compris') {
             $this->trajet[$option] = 'non_compris';
-        }
-        elseif (($this->trajet[$option] ?? false) == 'non_compris')
-        {
+        } elseif (($this->trajet[$option] ?? false) == 'non_compris') {
             $this->trajet[$option] = 'non_affiche';
-        }
-        elseif (($this->trajet[$option] ?? false) == 'non_affiche')
-        {
+        } elseif (($this->trajet[$option] ?? false) == 'non_affiche') {
             $this->trajet[$option] = 'compris';
         }
 
-
+        $this->updated();
 //        dd($option, $this->trajet);
     }
 
     public function updated()
     {
-//        $this->trajet['non_inclus_repas_chauffeur'] = !$this->trajet['inclus_repas_chauffeur'];
-//        $this->trajet['non_inclus_hebergement'] = !$this->trajet['inclus_hebergement'];
-//        $this->trajet['non_inclus_parking'] = !$this->trajet['inclus_parking'];
-//        $this->trajet['non_inclus_peages'] = !$this->trajet['inclus_peages'];
+
 
         if (empty($this->trajet['retour_pax'] ?? null) && !empty($this->trajet['aller_pax'] ?? null)) {
             $this->trajet['retour_pax'] = $this->trajet['aller_pax'];
@@ -80,7 +72,6 @@ class DevisEditProduct extends Component
 
     public function updateData($data)
     {
-
         if (Str::contains($data['name'], 'aller')) {
             if (Str::contains($data['name'], 'depart')) {
                 $this->trajet['aller_point_depart'] = $data['format'];

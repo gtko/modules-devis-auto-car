@@ -58,6 +58,7 @@ class DevisEdit extends Component
 
     public function updateTrajetChild($data)
     {
+
         $this->data['trajets'][$data['id']] = $data['trajet'];
     }
 
