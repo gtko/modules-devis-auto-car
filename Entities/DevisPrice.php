@@ -71,6 +71,14 @@ class DevisPrice
         return $this->total_ttc;
     }
 
+    public function getAcompteTTC(){
+        if($this->getPriceTTC() > 0) {
+            return $this->getPriceTTC() * 0.3;
+        }
+
+        return 0;
+    }
+
     public function getTauxTVA(){
         if($this->tva) {
             return config('crmautocar.tva');
