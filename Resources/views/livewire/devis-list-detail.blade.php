@@ -11,6 +11,13 @@
     <td class="border-b dark:border-dark-5">
         {{$devi->created_at->format('d/m/Y H:i')}}
     </td>
+    <td class="border-b dark:border-dark-5">
+        @if($devi->date_depart)
+        {{$devi->date_depart->format('d/m/Y H:i')}}
+        @else
+            N/A
+        @endif
+    </td>
     @foreach($brands as $brand)
         <td class="border-b dark:border-dark-5">
             {{(new Modules\DevisAutoCar\Entities\DevisPrice($devi, $brand))->getPriceTTC()}}€

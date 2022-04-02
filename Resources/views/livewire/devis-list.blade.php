@@ -16,6 +16,7 @@
                 <th class="whitespace-nowrap">Titre</th>
                 <th class="whitespace-nowrap">Commercial</th>
                 <th class="whitespace-nowrap">Date du devis</th>
+                <th class="whitespace-nowrap">Date départ</th>
                 @foreach($brands as $brand)
                     <th class="whitespace-nowrap">Tarif</th>
                     <th class="whitespace-nowrap"></th>
