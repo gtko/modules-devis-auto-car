@@ -33,21 +33,16 @@ class RappelDevisWhatsapp extends Component
         $phone = substr($phone, 1);
         $phone = '33' . $phone;
 
-        $signature = $this->dossier->commercial->format_nom ."\n" . $this->dossier->commercial->email."%0D%0A" . $this->dossier->commercial->phone;
-        $text = "
-Bienvenue chez Centrale Autocar %0D%0A
-
-J'ai bien reçu votre recherche de transfert en autocar, cependant je n'ai pas réussi à vous joindre afin d’affiner votre projet. %0D%0A
-
-A quel moment pouvons nous fixer ensemble un RDV téléphonique? %0D%0A
-
-D'ici là, je vous invite à me faire part de vos critères par whatsapp  afin que je puisse avancer dans mes recherches : %0D%0A
-
-Je me ferai un plaisir de vous renseigner.  %0D%0A"
+        $signature = $this->dossier->commercial->format_nom ."\n" . $this->dossier->commercial->email."\n" . $this->dossier->commercial->phone;
+        $text = "Bienvenue chez Centrale Autocar\n
+J'ai bien reçu votre recherche de transfert en autocar, cependant je n'ai pas réussi à vous joindre afin d’affiner votre projet.
+A quel moment pouvons nous fixer ensemble un RDV téléphonique?
+D'ici là, je vous invite à me faire part de vos critères par whatsapp  afin que je puisse avancer dans mes recherches :
+Je me ferai un plaisir de vous renseigner.\n"
 
 . $signature;
 
-        $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . $text;
+        $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . urlencode($text);
 
 
         return view('devisautocar::livewire.rappel-devis-whatsapp',

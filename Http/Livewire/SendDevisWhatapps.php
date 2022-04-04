@@ -35,11 +35,10 @@ class SendDevisWhatapps extends Component
         $phone = substr($phone, 1);
         $phone = '33' . $phone;
 
-        $text = "Je vous remercie de l'intérêt que vous portez à Centrale Autocar, votre complice pour tous vos transferts. Retrouvez votre devis en ligne en cliquant sur le liens ci-joint";
-        $message = $text . ' ' . $this->link;
+        $text = "Je vous remercie de l'intérêt que vous portez à Centrale Autocar, votre complice pour tous vos transferts.\n\nRetrouvez votre devis en ligne en cliquant sur le liens ci-joint";
+        $message = $text . "\n" . $this->link;
 
-        $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . $message;
-
+        $lien = 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' .urlencode($message);
 
         return view('devisautocar::livewire.send-devis-whatapps',
             ['lien' => $lien]
