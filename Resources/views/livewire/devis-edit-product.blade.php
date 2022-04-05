@@ -109,29 +109,6 @@
                     Options inclus pour le tarif indiqué
                 </p>
             </div>
-{{--            <x-basecore::partials.card>--}}
-{{--                <div class="grid grid-cols-2">--}}
-{{--                    <x-basecore::inputs.group>--}}
-{{--                        <x-basecore::inputs.checkbox label="Repas chauffeur" name=""--}}
-{{--                                                     wire:model.lazy="trajet.inclus_repas_chauffeur"/>--}}
-{{--                    </x-basecore::inputs.group>--}}
-{{--                    <x-basecore::inputs.group>--}}
-{{--                        <x-basecore::inputs.checkbox label="Hébergement" name=""--}}
-{{--                                                     wire:model.lazy="trajet.inclus_hebergement"/>--}}
-{{--                    </x-basecore::inputs.group>--}}
-{{--                    <x-basecore::inputs.group>--}}
-{{--                        <x-basecore::inputs.checkbox label="Parking" name="" wire:model.lazy="trajet.inclus_parking"/>--}}
-{{--                    </x-basecore::inputs.group>--}}
-{{--                    <x-basecore::inputs.group>--}}
-{{--                        <x-basecore::inputs.checkbox label="Péages" name="" wire:model.lazy="trajet.inclus_peages"/>--}}
-{{--                    </x-basecore::inputs.group>--}}
-{{--                </div>--}}
-{{--                <input type="hidden" name="non_inclus_repas_chauffeur"--}}
-{{--                       wire:model.lazy="trajet.non_inclus_repas_chauffeur"/>--}}
-{{--                <input type="hidden" name="non_inclus_hebergement" wire:model.lazy="trajet.non_inclus_hebergement"/>--}}
-{{--                <input type="hidden" name="non_inclus_parking" wire:model.lazy="trajet.non_inclus_parking"/>--}}
-{{--                <input type="hidden" name="non_inclus_peages" wire:model.lazy="trajet.non_inclus_peages"/>--}}
-{{--            </x-basecore::partials.card>--}}
 
             <x-basecore::partials.card>
                 <div class="grid grid-cols-2">
