@@ -138,7 +138,7 @@
 
         <div class="flex justify-between items-center mt-5">
             @if(!$invoice_exists)
-                <x-basecore::loading-replace label="Enregistrement en cours">
+                <x-basecore::loading-replace label="Enregistrement en cours" wire:target="store">
                     <x-slot name="loader">
                         <div class="btn btn-primary">
                             @icon('spinner', 20, 'animate-spin mr-2')
