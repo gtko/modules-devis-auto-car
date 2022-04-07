@@ -45,7 +45,7 @@
             </x-basecore::partials.card>
 
             @if(($trajet['aller_distance'] ?? null))
-                <livewire:devisautocar::devis-distance :key="md5(json_encode($trajet['aller_distance']))" :distance="$trajet['aller_distance']" />
+                <livewire:devisautocar::devis-distance :key="md5($trajetId.'_aller_'.json_encode($trajet['aller_distance']))" :distance="$trajet['aller_distance']" />
             @endif
 
             <div class="my-5">
@@ -80,7 +80,7 @@
                 </div>
             </x-basecore::partials.card>
             @if(($trajet['retour_distance'] ?? null))
-                <livewire:devisautocar::devis-distance :key="md5(json_encode($trajet['retour_distance']))" :distance="$trajet['retour_distance']"/>
+                <livewire:devisautocar::devis-distance :key="md5($trajetId.'_retour_'.json_encode($trajet['retour_distance']))" :distance="$trajet['retour_distance']"/>
             @endif
 
             <div class="my-5">
