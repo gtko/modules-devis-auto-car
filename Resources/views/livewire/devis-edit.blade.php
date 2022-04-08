@@ -21,7 +21,6 @@
 
     <div>
         @foreach(($data['trajets'] ?? []) as $keyTrajet => $trajet)
-
             <livewire:devisautocar::devis-edit-product :key="$keyTrajet" :trajet="$trajet" :trajet-id="$keyTrajet"/>
             <span class="btn btn-danger my-2 form-control-sm" wire:click="removeTrajet({{$keyTrajet}})">
                 @icon('delete', null, 'mr-2')

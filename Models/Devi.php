@@ -52,6 +52,10 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return count($this->data['trajets'] ?? []) > 1;
     }
 
+    public static function getPrefixRef(){
+        return 'DEV';
+    }
+
     public function dossier(): BelongsTo
     {
         return $this->belongsTo(\Modules\CrmAutoCar\Models\Dossier::class);
@@ -157,8 +161,10 @@ class Devi extends \Modules\CoreCRM\Models\Devi
                 $sendable = false;
             }
 
-            if (!($trajet['retour_date_depart'] ?? false)) {
-                $sendable = false;
+            if($trajet['retour_point_depart'] ?? false){
+                if (!($trajet['retour_date_depart'] ?? false)) {
+                    $sendable = false;
+                }
             }
         }
 

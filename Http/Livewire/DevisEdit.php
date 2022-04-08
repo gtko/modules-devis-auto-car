@@ -42,6 +42,9 @@ class DevisEdit extends Component
     public function store(DevisRepositoryContract $deviRep)
     {
         if (!$this->devis->invoice()->exists()) {
+
+            $this->data['trajets'] = array_values($this->data['trajets'] ?? []);
+
             $deviRep->updateData($this->devis, $this->data, $this->devis_titre);
 
             session()->flash('success', __('basecore::crud.common.saved'));
