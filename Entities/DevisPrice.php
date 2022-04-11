@@ -3,6 +3,8 @@
 namespace Modules\DevisAutoCar\Entities;
 
 use Illuminate\Support\Collection;
+use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Models\Devi;
 
@@ -13,6 +15,7 @@ class DevisPrice
     protected bool $tva = false;
 
     protected Brand $brand;
+    protected DevisEntities $devis;
 
     protected Collection $trajets;
     protected Collection $lines;
@@ -25,6 +28,7 @@ class DevisPrice
     public function __construct(Devi $devis, Brand $brand){
         $this->trajets = collect();
         $this->lines = collect();
+        $this->devis = $devis;
         $this->brand = $brand;
         $this->getTrajetsTotal($devis, $brand);
         $this->getLinesTotal($devis);
@@ -43,6 +47,16 @@ class DevisPrice
         foreach(($devis->data['trajets'] ?? [])as $id => $trajet){
             $this->trajets->push(new DevisTrajetPrice($devis, $id, $brand));
         }
+    }
+
+    public function getTrajetsPrices(){
+        $trajetsPrice = collect([]);
+        $brand = app(BrandsRepositoryContract::class)->getDefault();
+        foreach(($this->devis->data['trajets'] ?? [])as $id => $trajet){
+            $trajetsPrice->push(new DevisTrajetPrice($this->devis, $id, $brand));
+        }
+
+        return $trajetsPrice;
     }
 
     protected function getLinesTotal(Devi $devis){

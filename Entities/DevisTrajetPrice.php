@@ -2,6 +2,7 @@
 
 namespace Modules\DevisAutoCar\Entities;
 
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Models\Devi;
 
@@ -66,6 +67,16 @@ class DevisTrajetPrice
 
     public function getTrajets(){
         return collect([$this->devis->data['trajets'][$this->id_trajet]]);
+    }
+
+    public function getTrajetsPrices(){
+        $trajetsPrice = collect([]);
+        $brand = app(BrandsRepositoryContract::class)->getDefault();
+        foreach(($this->devis->data['trajets'] ?? [])as $id => $trajet){
+            $trajetsPrice->push(new DevisTrajetPrice($this->devis, $id, $brand));
+        }
+
+        return $trajetsPrice;
     }
 
     public function getPriceTTC(){
