@@ -182,16 +182,27 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getSearchResult(): SearchResult
     {
-        $result = new SearchResult(
-            $this,
-            "#{$this->ref} - " . ($this->title ?? 'N/A').' '. $this->dossier->client->format_name,
-            route('devis.edit', [$this->dossier->client, $this->dossier, $this]),
-            'devis',
-            html:"<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->commercial->format_name}</small>"
-        );
+        if($this->dossier) {
+            $result = new SearchResult(
+                $this,
+                "#{$this->ref} - " . ($this->title ?? 'N/A').' '. $this->dossier->client->format_name,
+                route('devis.edit', [$this->dossier->client, $this->dossier, $this]),
+                'devis',
+                html:"<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->commercial->format_name}</small>"
+            );
 
-        $result->setImg($this->dossier->client->avatar_url);
+            $result->setImg($this->dossier->client->avatar_url);
 
+        }else{
+            $result = new SearchResult(
+                $this,
+                "#{$this->ref} - n'a plus de dossier",
+                '',
+                'devis',
+                html: ""
+            );
+        }
         return $result;
+
     }
 }
