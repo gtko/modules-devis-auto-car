@@ -115,27 +115,13 @@
             />
         </x-basecore::partials.card>
 
-        <div class="my-5">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                TVA
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">
-                Ne pas établir un devis ou facture avec la TVA FR.
-            </p>
-        </div>
-        <x-basecore::partials.card>
-            <x-basecore::inputs.group class="w-full">
+        <div class="flex justify-end items-center mt-5 space-x-4 fixed bg-white shadow bg-opacity-50 backdrop-filter backdrop-blur bottom-0 left-0 right-0 p-3">
                 <x-basecore::inputs.checkbox
                     wire:model="devis.tva_applicable"
                     name="tva_applicable"
                     label="Tva Applicable"
                     :checked="$devis->tva_applicable"
                 />
-            </x-basecore::inputs.group>
-        </x-basecore::partials.card>
-
-
-        <div class="flex justify-between items-center mt-5">
             @if(!$invoice_exists)
                 <x-basecore::loading-replace label="Enregistrement en cours" wire:target="store">
                     <x-slot name="loader">

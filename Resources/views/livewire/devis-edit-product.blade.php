@@ -39,7 +39,7 @@
                         <input type="hidden" name='aller_point_arriver_geo_{{$trajetId}}' wire:model="trajet.aller_point_arriver_geo"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Pax" name="aller_pax" wire:model.lazy="trajet.aller_pax" placeholder="Nombre de passagers"/>
+                        <x-basecore::inputs.basic label="Pax" name="aller_pax" wire:model="trajet.aller_pax" placeholder="Nombre de passagers"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
@@ -61,21 +61,21 @@
                     <x-basecore::inputs.group class="w-full">
                         <x-basecore::inputs.datetime label="Date de départ"
                                                      name="retour_date_depart"
-                                                     wire:model.lazy="trajet.retour_date_depart"
+                                                     wire:model="trajet.retour_date_depart"
                                                      placeholder="Date de départ"
                                                      required
                         />
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Point de départ" class='addressmap' data-trajet="{{$trajetId}}" name="retour_point_depart" wire:model.lazy="trajet.retour_point_depart" placeholder="Ville, adresse , ..."/>
+                        <x-basecore::inputs.basic label="Point de départ" class='addressmap' data-trajet="{{$trajetId}}" name="retour_point_depart" wire:model="trajet.retour_point_depart" placeholder="Ville, adresse , ..."/>
                         <input type="hidden" name='retour_point_depart_geo_{{$trajetId}}' wire:model="trajet.retour_point_depart_geo"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Point d'arriver" class='addressmap' data-trajet="{{$trajetId}}" name="retour_point_arriver" wire:model.lazy="trajet.retour_point_arriver" placeholder="Ville, adresse , ..."/>
+                        <x-basecore::inputs.basic label="Point d'arriver" class='addressmap' data-trajet="{{$trajetId}}" name="retour_point_arriver" wire:model="trajet.retour_point_arriver" placeholder="Ville, adresse , ..."/>
                         <input type="hidden" name='retour_point_arriver_geo_{{$trajetId}}' wire:model="trajet.retour_point_arriver_geo"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Pax" name="retour_pax" wire:model.lazy="trajet.retour_pax" placeholder="Nombre de passagers"/>
+                        <x-basecore::inputs.basic label="Pax" name="retour_pax" wire:model="trajet.retour_pax" placeholder="Nombre de passagers"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
@@ -95,7 +95,7 @@
                 <div class="grid grid-cols-3">
                     @foreach($brands as $brand)
                         <x-basecore::inputs.group>
-                            <x-basecore::inputs.number label="{{$brand->label}}" name="" wire:model.lazy="trajet.brands.{{$brand->id}}" placeholder="Tarif en €"/>
+                            <x-basecore::inputs.number label="{{$brand->label}}" name="" wire:model="trajet.brands.{{$brand->id}}" placeholder="Tarif en €"/>
                         </x-basecore::inputs.group>
                     @endforeach
                 </div>
@@ -179,20 +179,20 @@
                 <div class="grid grid-cols-2">
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de ramassage du trajet aller" name=""
-                                                  wire:model.lazy="trajet.addresse_ramassage"/>
+                                                  wire:model="trajet.addresse_ramassage"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de destination du trajet aller" name=""
-                                                  wire:model.lazy="trajet.addresse_destination"/>
+                                                  wire:model="trajet.addresse_destination"/>
                     </x-basecore::inputs.group>
 
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de ramassage du trajet retour" name=""
-                                                  wire:model.lazy="trajet.addresse_ramassage_retour"/>
+                                                  wire:model="trajet.addresse_ramassage_retour"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de destination du trajet retour" name=""
-                                                  wire:model.lazy="trajet.addresse_destination_retour"/>
+                                                  wire:model="trajet.addresse_destination_retour"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
