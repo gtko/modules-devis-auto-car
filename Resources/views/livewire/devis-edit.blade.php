@@ -164,6 +164,7 @@
                     let latlng = place.geometry.location.lat() + "," + place.geometry.location.lng()
                     let geoField = document.querySelector('[name=' + addressField.getAttribute('name') + "_geo_" + addressField.getAttribute('data-trajet') + ']')
                     geoField.value = latlng
+                    console.log(autocomplete);
                     addressField.value = place.formatted_address
                     @this.emit('devis:update-' + addressField.getAttribute('data-trajet') + '-data', {
                         'name': addressField.getAttribute('name'),
