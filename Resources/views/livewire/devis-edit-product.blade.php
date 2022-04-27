@@ -39,7 +39,7 @@
                         <input type="hidden" name='aller_point_arriver_geo_{{$trajetId}}' wire:model="trajet.aller_point_arriver_geo"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Pax" name="aller_pax" wire:model="trajet.aller_pax" placeholder="Nombre de passagers"/>
+                        <x-basecore::inputs.basic label="Pax" name="aller_pax" wire:model.lazy="trajet.aller_pax" placeholder="Nombre de passagers"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
@@ -75,7 +75,7 @@
                         <input type="hidden" name='retour_point_arriver_geo_{{$trajetId}}' wire:model="trajet.retour_point_arriver_geo"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group class="w-full">
-                        <x-basecore::inputs.basic label="Pax" name="retour_pax" wire:model="trajet.retour_pax" placeholder="Nombre de passagers"/>
+                        <x-basecore::inputs.basic label="Pax" name="retour_pax" wire:model.lazy="trajet.retour_pax" placeholder="Nombre de passagers"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
