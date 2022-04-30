@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Modules\CoreCRM\Models\Commercial;
@@ -15,6 +16,7 @@ use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Models\Scopes\HasRef;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
+use Modules\CrmAutoCar\Models\Decaissement;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\DevisAutoCar\Entities\DevisPrice;
@@ -59,6 +61,11 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function dossier(): BelongsTo
     {
         return $this->belongsTo(\Modules\CrmAutoCar\Models\Dossier::class);
+    }
+
+    public function decaissements(): HasMany
+    {
+        return $this->hasMany(Decaissement::class,'devis_id', 'id');
     }
 
     public function fournisseur(): BelongsTo
