@@ -86,6 +86,13 @@ class Devi extends \Modules\CoreCRM\Models\Devi
             ->wherePivot('validate', true);
     }
 
+    public function fournisseursBPA(): BelongsToMany
+    {
+        return $this->belongsToMany(\Modules\CrmAutoCar\Models\Fournisseur::class, 'devi_fournisseurs', 'devi_id', 'user_id')
+            ->withPivot('prix', 'validate', 'mail_sended', 'bpa')
+            ->wherePivot('bpa', true);
+    }
+
     public function brands(): BelongsToMany
     {
         return $this->belongsToMany(Brand::class);
