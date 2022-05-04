@@ -54,7 +54,8 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return count($this->data['trajets'] ?? []) > 1;
     }
 
-    public static function getPrefixRef(){
+    public static function getPrefixRef()
+    {
         return 'DEV';
     }
 
@@ -65,7 +66,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function decaissements(): HasMany
     {
-        return $this->hasMany(Decaissement::class,'devis_id', 'id');
+        return $this->hasMany(Decaissement::class, 'devis_id', 'id');
     }
 
     public function fournisseur(): BelongsTo
@@ -76,7 +77,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function fournisseurs(): BelongsToMany
     {
         return $this->belongsToMany(\Modules\CrmAutoCar\Models\Fournisseur::class, 'devi_fournisseurs', 'devi_id', 'user_id')
-            ->withPivot('prix', 'validate', 'mail_sended', 'bpa');
+            ->withPivot('prix', 'validate', 'mail_sended', 'bpa', 'refused');
     }
 
     public function fournisseursValidated(): BelongsToMany
@@ -167,15 +168,16 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         }
     }
 
-    public function getSendableAttribute(){
+    public function getSendableAttribute()
+    {
         $sendable = true;
 
-        foreach(($this->data['trajets'] ?? []) as $trajet) {
+        foreach (($this->data['trajets'] ?? []) as $trajet) {
             if (!($trajet['aller_date_depart'] ?? false)) {
                 $sendable = false;
             }
 
-            if($trajet['retour_point_depart'] ?? false){
+            if ($trajet['retour_point_depart'] ?? false) {
                 if (!($trajet['retour_date_depart'] ?? false)) {
                     $sendable = false;
                 }
@@ -196,18 +198,18 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getSearchResult(): SearchResult
     {
-        if($this->dossier) {
+        if ($this->dossier) {
             $result = new SearchResult(
                 $this,
-                "#{$this->ref} - " . ($this->title ?? 'N/A').' '. $this->dossier->client->format_name,
+                "#{$this->ref} - " . ($this->title ?? 'N/A') . ' ' . $this->dossier->client->format_name,
                 route('devis.edit', [$this->dossier->client, $this->dossier, $this]),
                 'devis',
-                html:"<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->commercial->format_name}</small>"
+                html: "<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->commercial->format_name}</small>"
             );
 
             $result->setImg($this->dossier->client->avatar_url);
 
-        }else{
+        } else {
             $result = new SearchResult(
                 $this,
                 "#{$this->ref} - n'a plus de dossier",
