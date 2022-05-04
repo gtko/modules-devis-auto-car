@@ -3,7 +3,7 @@
         <table class="table mt-5">
             <thead>
             <tr class="text-gray-700">
-                <th class="whitespace-nowrap" colspan="3">
+                <th class="whitespace-nowrap" colspan="5">
                     {{$devis->count()}} devis
                 </th>
                 @foreach($brands as $brand)
