@@ -20,8 +20,16 @@ class DevisEdit extends Component
     protected array $rules = [
         'data.*' => '',
         'data.trajets' => '',
+        'data.trajets.*.aller_date_depart' => 'required|date ',
+        'data.trajets.*.retour_date_depart' => 'required|date',
+        'data.trajets.brands' => 'numeric',
         'devis.tva_applicable' => '',
         'devis_titre' => '',
+    ];
+
+    protected array $input = [
+        'data.trajets.*.aller_date_depart' => 'aller date de depart',
+        'data.trajets.*.retour_date_depart' => 'retour date de depart',
     ];
 
     protected $listeners = [
@@ -41,6 +49,12 @@ class DevisEdit extends Component
 
     public function store(DevisRepositoryContract $deviRep)
     {
+
+//        dd($this->data["trajets"][0]);
+//        dd($this->data["trajets"]["retour_date_depart"]);
+        $this->validate($this->rules, [], $this->input);
+
+
         if (!$this->devis->invoice()->exists()) {
 
             $this->data['trajets'] = array_values($this->data['trajets'] ?? []);
@@ -82,7 +96,8 @@ class DevisEdit extends Component
         unset($this->data['trajets'][$trajet]);
     }
 
-    public function addLine(){
+    public function addLine()
+    {
         $this->data['lines'][] = [
             'line' => '',
             'qte' => 1,
@@ -91,7 +106,8 @@ class DevisEdit extends Component
         ];
     }
 
-    public function removeLine($line){
+    public function removeLine($line)
+    {
         unset($this->data['lines'][$line]);
     }
 

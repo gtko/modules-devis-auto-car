@@ -1,4 +1,7 @@
 <div>
+        @foreach ($errors->all() as $error)
+            <div class="w-full h-8 bg-red-600 text-white flex items-center justify-center rounded ">{{ $error }}</div>
+        @endforeach
     <div class="my-4 flex flex-col">
         <span>Titre de devis :</span>
 
@@ -89,11 +92,11 @@
         <x-basecore::partials.card>
             <div class="grid grid-cols-2">
                 <x-basecore::inputs.group>
-                    <x-basecore::inputs.number label="Nombres de cars" name="" wire:model.lazy="data.nombre_bus"/>
+                    <x-basecore::inputs.number label="Nombres de cars" name="" wire:model.debounce="data.nombre_bus"/>
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
                     <x-basecore::inputs.number label="Nombre de chauffeurs" name=""
-                                               wire:model.lazy="data.nombre_chauffeur"/>
+                                               wire:model.debounce="data.nombre_chauffeur"/>
                 </x-basecore::inputs.group>
 
             </div>
@@ -109,7 +112,7 @@
         </div>
         <x-basecore::partials.card>
             <x-basecore::inputs.textarea
-                wire:model="data.entete"
+                wire:model.debounce="data.entete"
                 name="entete"
                 class="h-36"
             />

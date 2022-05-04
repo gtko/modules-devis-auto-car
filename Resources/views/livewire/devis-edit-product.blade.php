@@ -179,20 +179,20 @@
                 <div class="grid grid-cols-2">
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de ramassage du trajet aller" name=""
-                                                  wire:model="trajet.addresse_ramassage"/>
+                                                  wire:model.debounce="trajet.addresse_ramassage"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de destination du trajet aller" name=""
-                                                  wire:model="trajet.addresse_destination"/>
+                                                  wire:model.debounce="trajet.addresse_destination"/>
                     </x-basecore::inputs.group>
 
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de ramassage du trajet retour" name=""
-                                                  wire:model="trajet.addresse_ramassage_retour"/>
+                                                  wire:model.debounce="trajet.addresse_ramassage_retour"/>
                     </x-basecore::inputs.group>
                     <x-basecore::inputs.group>
                         <x-basecore::inputs.basic label="Adresse de destination du trajet retour" name=""
-                                                  wire:model="trajet.addresse_destination_retour"/>
+                                                  wire:model.debounce="trajet.addresse_destination_retour"/>
                     </x-basecore::inputs.group>
                 </div>
             </x-basecore::partials.card>
@@ -205,7 +205,7 @@
                 </p>
             </div>
             <x-basecore::inputs.textarea
-                wire:model="trajet.commentaire"
+                wire:model.debounce="trajet.commentaire"
                 name="commentaire"
                 class="h-36"
             />
