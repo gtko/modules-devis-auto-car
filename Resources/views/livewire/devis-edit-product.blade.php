@@ -95,7 +95,7 @@
                 <div class="grid grid-cols-3">
                     @foreach($brands as $brand)
                         <x-basecore::inputs.group>
-                            <x-basecore::inputs.number label="{{$brand->label}}" name="" wire:model="trajet.brands.{{$brand->id}}" placeholder="Tarif en €"/>
+                            <x-basecore::inputs.number label="{{$brand->label}}" name="" wire:model.defer="trajet.brands.{{$brand->id}}" placeholder="Tarif en €"/>
                         </x-basecore::inputs.group>
                     @endforeach
                 </div>

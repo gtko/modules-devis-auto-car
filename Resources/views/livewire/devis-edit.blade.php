@@ -123,7 +123,7 @@
                     :checked="$devis->tva_applicable"
                 />
             @if(!$invoice_exists)
-                <x-basecore::loading-replace label="Enregistrement en cours" wire:target="store">
+                <x-basecore::loading-replace label="Enregistrement en cours">
                     <x-slot name="loader">
                         <div class="btn btn-primary">
                             @icon('spinner', 20, 'animate-spin mr-2')
