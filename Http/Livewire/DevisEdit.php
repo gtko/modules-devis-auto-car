@@ -119,7 +119,7 @@ class DevisEdit extends Component
     public function render()
     {
 
-        $invoice_exists = $this->devis->invoice()->exists();
+        $invoice_exists = $this->devis->proformat()->exists();
 
         return view('devisautocar::livewire.devis-edit', compact('invoice_exists'));
     }

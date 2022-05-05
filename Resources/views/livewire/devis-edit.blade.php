@@ -140,7 +140,7 @@
                 </x-basecore::loading-replace>
             @else
                 <div class="alert alert-danger-soft show flex items-center mb-2" role="alert">
-                    @icon('noIcon', null, 'mr-2') Ce devis a été converti en facture.
+                    @icon('noIcon', null, 'mr-2') Ce devis a été validé par le client.
                 </div>
             @endif
         </div>
