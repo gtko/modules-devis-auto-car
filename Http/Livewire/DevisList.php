@@ -7,6 +7,7 @@ use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Repositories\DevisRepository;
+use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 
 class DevisList extends Component
@@ -29,7 +30,7 @@ class DevisList extends Component
      */
     public function render()
     {
-        $devisRep = app(DevisRepositoryContract::class);
+        $devisRep = app(DevisAutocarRepositoryContract::class);
 
         return view('devisautocar::livewire.devis-list', [
             'brands' => Brand::all(),

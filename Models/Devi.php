@@ -52,6 +52,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         'fournisseur_id',
     ];
 
+
     public function getIsMultipleAttribute()
     {
         return count($this->data['trajets'] ?? []) > 1;
