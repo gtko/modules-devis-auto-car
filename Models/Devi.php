@@ -17,6 +17,7 @@ use Modules\CoreCRM\Models\Scopes\HasRef;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Models\Traits\hasCanceled;
@@ -63,6 +64,8 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return 'DEV';
     }
 
+
+
     public function dossier(): BelongsTo
     {
         return $this->belongsTo(\Modules\CrmAutoCar\Models\Dossier::class);
@@ -71,6 +74,11 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function decaissements(): HasMany
     {
         return $this->hasMany(Decaissement::class, 'devis_id', 'id');
+    }
+
+    public function demandeFournisseurs(): HasMany
+    {
+        return $this->hasMany(DemandeFournisseur::class, 'devi_id');
     }
 
     public function fournisseur(): BelongsTo
