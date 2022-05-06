@@ -4,5 +4,4 @@
             @icon('addCircle', null, 'w-4 h-4 mr-1')
         </span>
     </x-basecore::loading-replace>
-
 </div>

@@ -1,5 +1,6 @@
 <div class="flex items-center justify-between">
 
+    @if(!$devis->validate && !$devis->hasCancel())
         @can('update', $devis)
             <a class="flex items-center"
                title="Editer le devis"
@@ -8,6 +9,7 @@
                 @icon("edit", null,"w-4 h-4 mr-1")
             </a>
         @endcan
+    @endif
 
     @if($devis->sendable)
         <livewire:devisautocar::send-devis :devis="$devis"/>
@@ -30,7 +32,12 @@
         </a>
     @endif
 
+    @if(!$devis->hasCanceller())
         <livewire:devisautocar::duplicate-devis :devis="$devis"/>
+    @endif
+
+    @if(!$devis->validate)
         <livewire:devisautocar::delete-devis :devis="$devis"/>
+    @endif
 
 </div>

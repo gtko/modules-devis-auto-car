@@ -21,9 +21,17 @@ class DeleteDevis extends Component
 
     public function delete()
     {
-        app(DevisRepositoryContract::class)->delete($this->devis);
-        (new FlowCRM())->add($this->devis->dossier, new ClientDossierDevisDelete($this->devis, Auth::user()));
-        $this->emit('refreshDevi');
+        if(!$this->devis->proformat) {
+            app(DevisRepositoryContract::class)->delete($this->devis);
+            (new FlowCRM())->add($this->devis->dossier, new ClientDossierDevisDelete($this->devis, Auth::user()));
+
+            session()->flash('success', 'Suppression du devis');
+            return redirect()->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier, 'tab' => 'devis']);
+        }
+
+        session()->flash('error', 'Suppression impossible, car déjà validé');
+        return redirect()->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier, 'tab' => 'devis']);
+
     }
 
     public function render()

@@ -40,9 +40,6 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     use HasFactory;
     use HasRef;
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_NORMAL = 'normal';
-
     use hasCanceled;
 
     protected $with = ['dossier.client', 'fournisseur'];
@@ -167,15 +164,25 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public function getValidateAttribute()
     {
-        if (array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation', $this->data) || array_key_exists('name_validation', $this->data) || array_key_exists('address_validation', $this->data)) {
+        if($this->proformat && !$this->hasCancel()){
             return true;
-        } else {
-            return false;
         }
+
+        return false;
+
+//        if (array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation', $this->data) || array_key_exists('name_validation', $this->data) || array_key_exists('address_validation', $this->data)) {
+//            return true;
+//        } else {
+//            return false;
+//        }
     }
 
     public function getSendableAttribute()
     {
+        if($this->hasCancel()){
+            return false;
+        }
+
         $sendable = true;
 
         foreach (($this->data['trajets'] ?? []) as $trajet) {
