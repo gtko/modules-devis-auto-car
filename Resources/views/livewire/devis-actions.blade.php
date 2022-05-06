@@ -1,15 +1,13 @@
 <div class="flex items-center justify-between">
 
-
-    @can('update', $devis)
-        <a class="flex items-center"
-           title="Editer le devis"
-           target="_blank"
-           href="{{route('devis.edit', [$client, $dossier, $devis])}}">
-            @icon("edit", null,"w-4 h-4 mr-1")
-        </a>
-    @endcan
-
+        @can('update', $devis)
+            <a class="flex items-center"
+               title="Editer le devis"
+               target="_blank"
+               href="{{route('devis.edit', [$client, $dossier, $devis])}}">
+                @icon("edit", null,"w-4 h-4 mr-1")
+            </a>
+        @endcan
 
     @if($devis->sendable)
         <livewire:devisautocar::send-devis :devis="$devis"/>

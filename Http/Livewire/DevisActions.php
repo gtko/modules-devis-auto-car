@@ -26,6 +26,9 @@ class DevisActions extends Component
      */
     public function render()
     {
+
+
+
         return view('devisautocar::livewire.devis-actions', [
             'state' => $this->devis->getState()
         ]);

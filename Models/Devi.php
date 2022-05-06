@@ -19,6 +19,7 @@ use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Decaissement;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Traits\hasCanceled;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\SearchCRM\Entities\SearchResult;
 
@@ -38,6 +39,11 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 {
     use HasFactory;
     use HasRef;
+
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_NORMAL = 'normal';
+
+    use hasCanceled;
 
     protected $with = ['dossier.client', 'fournisseur'];
 
