@@ -21,7 +21,7 @@ class DevisEdit extends Component
         'data.*' => '',
         'data.trajets' => '',
         'data.trajets.*.aller_date_depart' => 'required|date ',
-        'data.trajets.*.retour_date_depart' => 'required|date',
+        'data.trajets.*.retour_date_depart' => 'date',
         'data.trajets.brands' => 'numeric',
         'devis.tva_applicable' => '',
         'devis_titre' => '',
