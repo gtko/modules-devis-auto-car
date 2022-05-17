@@ -3,6 +3,7 @@
 namespace Modules\DevisAutoCar\Http\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
@@ -12,6 +13,8 @@ use Modules\CrmAutoCar\Models\Brand;
 
 class DevisList extends Component
 {
+
+    use WithPagination;
 
     public $dossier = null;
     public $client = null;
