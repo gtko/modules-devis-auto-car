@@ -171,6 +171,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         return $this->data['paiement_type_validation'] ?? '';
     }
 
+
     public function getValidateAttribute()
     {
         if($this->proformat && !$this->hasCancel()){
