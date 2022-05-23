@@ -61,7 +61,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
     public static function getPrefixRef()
     {
-        return 'DEV';
+        return 'DEV-';
     }
 
 
