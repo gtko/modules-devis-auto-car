@@ -180,11 +180,6 @@ class Devi extends \Modules\CoreCRM\Models\Devi
 
         return false;
 
-//        if (array_key_exists('paiement_type_validation', $this->data) || array_key_exists('societe_validation', $this->data) || array_key_exists('name_validation', $this->data) || array_key_exists('address_validation', $this->data)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
     }
 
     public function getSendableAttribute()
