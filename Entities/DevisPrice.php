@@ -12,6 +12,7 @@ class DevisPrice
 {
 
     protected float $total_ttc = 0;
+    protected float $total_ht = 0;
     protected bool $tva = false;
 
     protected Brand $brand;
@@ -38,6 +39,12 @@ class DevisPrice
         }) + $this->lines->sum(function($item){
             return $item->getPriceTTC();
         });
+
+        $this->total_ht = $this->trajets->sum(function($item){
+                return $item->getPriceHT();
+            }) + $this->lines->sum(function($item){
+                return $item->getPriceHT();
+            });
 
 
         $this->tva = (bool) ($devis->tva_applicable ?? true);
@@ -93,19 +100,20 @@ class DevisPrice
         return 0;
     }
 
+    public function getPriceHT(){
+        return $this->total_ht;
+    }
+
+    public function getPriceTVA(){
+        return $this->getPriceTTC() - $this->getPriceHT();
+    }
+
+
     public function getTauxTVA(){
         if($this->tva) {
             return config('crmautocar.tva');
         }
 
         return 0;
-    }
-
-    public function getPriceHT(){
-        return $this->getPriceTTC() / (1 + ($this->getTauxTVA() / 100));
-    }
-
-    public function getPriceTVA(){
-        return $this->getPriceTTC() - $this->getPriceHT();
     }
 }

@@ -40,7 +40,7 @@ class DevisLinePrice
     }
 
     public function getTauxTVA(){
-        if($this->tva) {
+        if($this->taux_tva > 1.00) {
             return (($this->taux_tva - 1)*100);
         }
 
@@ -54,4 +54,26 @@ class DevisLinePrice
     public function getPriceTVA(){
         return $this->getPriceTTC() - $this->getPriceHT();
     }
+
+    /**
+     * @return float|int
+     */
+    public function getQte(): float|int
+    {
+        return $this->qte;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getPu(): float|int
+    {
+        return $this->pu;
+    }
+
+    public function getTauxTVAInteger(){
+        return $this->taux_tva;
+    }
+
+
 }

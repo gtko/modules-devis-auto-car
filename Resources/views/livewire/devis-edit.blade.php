@@ -53,6 +53,13 @@
                                                  wire:model="data.lines.{{$keyLine}}.line"/>
                         <x-basecore::inputs.text class='col-span-1' name="qte" placeholder="Qte"
                                                  wire:model="data.lines.{{$keyLine}}.qte"/>
+                        <x-basecore::inputs.select name="tva" wire:model="data.lines.{{$keyLine}}.tva">
+                            <option value="1.0">0%</option>
+                            <option value="1.021">2.1%</option>
+                            <option value="1.055">5.5%</option>
+                            <option value="1.1">10%</option>
+                            <option value="1.2">20%</option>
+                        </x-basecore::inputs.select>
                         <x-basecore::inputs.text class='col-span-2' name="pu" placeholder="Prix unitaire"
                                                  wire:model="data.lines.{{$keyLine}}.pu"/>
                         <div class="whitespace-nowrap font-bold">
