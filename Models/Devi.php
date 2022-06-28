@@ -145,6 +145,7 @@ class Devi extends \Modules\CoreCRM\Models\Devi
         }
 
         if (!empty($date)) {
+            if($date == 'Aucun') dd('coucou', $date, $this);
             return Carbon::parse($date);
         }
 
@@ -175,6 +176,16 @@ class Devi extends \Modules\CoreCRM\Models\Devi
     public function getValidateAttribute()
     {
         if($this->proformat && !$this->hasCancel()){
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function getValidateWithoutCancelAttribute()
+    {
+        if($this->proformat){
             return true;
         }
 

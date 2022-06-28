@@ -1,5 +1,7 @@
 <div class="flex items-center justify-between">
-
+    <x-corecrm::link-devis :devis="$devis" class="flex items-center" title="voir le devis">
+        @icon("show", null,"w-4 h-4 mr-1")
+    </x-corecrm::link-devis>
     @if(!$devis->validate && !$devis->hasCancel())
         @can('update', $devis)
             <a class="flex items-center"
@@ -14,9 +16,7 @@
     @if($devis->sendable)
         <livewire:devisautocar::send-devis :devis="$devis"/>
         <livewire:devisautocar::send-devis-whatapps :devis="$devis"/>
-        <x-corecrm::link-devis :devis="$devis" class="flex items-center" title="voir le devis">
-            @icon("show", null,"w-4 h-4 mr-1")
-        </x-corecrm::link-devis>
+
 
         <a class='ignore-link' href="{{route('pdf-devis-download', $devis)}}" target="_blank">
             @icon('pdf', null, 'w-4 h-4 mr-1')
