@@ -155,11 +155,13 @@
     </div>
 
     <script>
+
         function initInput(selecteur) {
             let addressFields;
             addressFields = document.querySelectorAll(selecteur);
             for (let addressField of addressFields) {
 
+                console.log(addressField);
 
                 let autocomplete;
                 autocomplete = new google.maps.places.Autocomplete(addressField, {
@@ -190,7 +192,7 @@
         }
     </script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}=places&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&libraries=places&callback=initAutocomplete&v=weekly"
     ></script>
 
 </div>
