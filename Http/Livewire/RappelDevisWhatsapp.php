@@ -30,8 +30,6 @@ class RappelDevisWhatsapp extends Component
     public function render()
     {
         $phone = $this->dossier->client->personne->phones->first()->phone ?? '';
-        $phone = substr($phone, 1);
-        $phone = '33' . $phone;
 
         $signature = $this->dossier->commercial->format_nom ."\n" . $this->dossier->commercial->email."\n" . $this->dossier->commercial->phone;
         $text = "Bienvenue chez Centrale Autocar\n
