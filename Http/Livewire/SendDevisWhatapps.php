@@ -33,6 +33,7 @@ class SendDevisWhatapps extends Component
         $this->link = (new GenerateLinkDevis())->GenerateLink($this->devis);
         $phone = $this->devis->dossier->client->personne->phones->first()->phone ?? '';
 
+
         $text = "Je vous remercie de l'intérêt que vous portez à Centrale Autocar, votre complice pour tous vos transferts.\n\nRetrouvez votre devis en ligne en cliquant sur le liens ci-joint";
         $message = $text . "\n" . $this->link;
 
